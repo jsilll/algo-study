@@ -1,3 +1,6 @@
+#ifndef GRAPG_H
+#define GRAPG_H
+
 #include <iostream>
 #include <vector>
 
@@ -13,11 +16,19 @@ public:
     Graph(int V);
     ~Graph();
 
+    // Basic Operations
     void addEdge(int v, int u);
     int getV();
     int getE();
     vector<int> getAdjacent(int v);
     void printGraph();
+
+    // Algorithms
+    vector<int> topologicalSort();
+    Graph getTranspose();
+    void DFS(int v, vector<int> *pi, vector<int> *times, int *current_time);
+    vector<int> orderedDFS(vector<int> order);
+    vector<int> getDFSClosingOrder();
 };
 
 Graph::Graph(int V)
@@ -64,3 +75,5 @@ void Graph::printGraph()
         cout << endl;
     }
 }
+
+#endif

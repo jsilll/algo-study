@@ -1,3 +1,6 @@
+#ifndef ARRAY_UTILS_H
+#define ARRAY_UTILS_H
+
 #include <iostream>
 
 using namespace std;
@@ -15,3 +18,5 @@ void swap(int arr[], int i, int j)
     arr[i] = arr[j];
     arr[j] = aux;
 }
+
+#endif
