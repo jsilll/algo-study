@@ -14,5 +14,7 @@ int main(int argc, char const *argv[])
     h.printHeap();
     h.increaseKey(8, 10);
     h.printHeap();
+    h.insert(20);
+    h.printHeap();
     return 0;
 }

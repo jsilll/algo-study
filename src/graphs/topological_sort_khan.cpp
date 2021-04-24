@@ -5,13 +5,15 @@
 #include "graph.h"
 #include "vector_utils.h"
 
+// Algoritmo de Khan
 // Usar uma queue e comecar pelas sources do grafo
 // explorar todos os vertices adjacentes ao vértice atual
 // e para vértice visto diminuir a aresta que os liga, se o vértice
 // já não tiver mais arestas adicioná-lo à fila de exploração
 //
 // Alternativa
-// Fazer uma DFS e adicionar os vértices à ordem topológica à medida que os vamos fechando
+// Fazer uma DFS e adicionar os vértices ao inicio da ordem
+// topológica à medida que os vamos fechando
 
 vector<int> Graph::topologicalSort()
 {

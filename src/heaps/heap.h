@@ -27,6 +27,7 @@ public:
     int extractMax();
     int getMax();
     void increaseKey(int i, int key);
+    void insert(int key);
     void printHeap();
 
     // Algos
@@ -146,6 +147,13 @@ void Heap::increaseKey(int i, int key)
             i = parent(i);
         }
     }
+}
+
+void Heap::insert(int key)
+{
+    vec.push_back(-1);
+    // SiftUp
+    increaseKey(vec.size() - 1, key);
 }
 
 vector<int> Heap::heapSort()
