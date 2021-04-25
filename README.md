@@ -19,8 +19,8 @@
 - [x] Breadth-First-Search
 - [x] Dijkstra
 - [x] Bellman-Ford
-- [ ] Floyd-Warshall
-- [ ] Johnson
+- [x] Floyd-Warshall
+- [x] Johnson
 - [ ] Ford-Fulkerson
 - [ ] Edmonds-Karp
 - [ ] Relabel-to-Front 
