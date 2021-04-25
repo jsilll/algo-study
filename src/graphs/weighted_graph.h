@@ -1,108 +1,133 @@
-#ifndef GRAPG_H
-#define GRAPG_H
+#ifndef WEIGHTED_GRAPG_H
+#define WEIGHTED_GRAPG_H
 
 #include <iostream>
-#include <vector>
-#include <stack>
-
+#include <bits/stdc++.h>
 using namespace std;
-
-class Edge
-{
-    int v;
-    int weight;
-
-public:
-    Edge(int _v, int _w)
-    {
-        v = _v;
-        weight = _w;
-    }
-    int getV() { return v; }
-    int getWeight() { return weight; }
-};
 
 class Graph
 {
+private:
+    int **adj;
     int V;
-    int E;
-    vector<Edge> *adj;
-
-    // Algo helper functions
-    void initializeSingleSource(int s);
-    void relax(int u, int v, int w);
 
 public:
+    //Basic Operations
     Graph(int V);
     ~Graph();
-
-    // Basic Operations
-    void addEdge(int v, int u, int weight);
-    int getV();
-    int getE();
-    vector<Edge> getAdjacent(int v);
+    void addEdge(int i, int j, int w);
+    Graph getTranspose();
     void printGraph();
+    vector<int> topologicalSort();
 
-    // Algorithms
+    // Algos
+    void dijkstra(int s, int *d, int *pi);
+    bool bellmanFord(int s, int *d, int *pi);
+    void orderedRelax(int s, vector<int> order);
+    void extendShortestPaths(int **D, int **PI);
+    void shortestPaths();
+    void floydWarshall();
+    void johnson();
 };
 
 Graph::Graph(int V)
 {
     this->V = V;
-    adj = new vector<Edge>[V];
+    adj = new int *[V];
+    for (int i = 0; i < V; i++)
+    {
+        adj[i] = new int[V];
+        for (int j = 0; j < V; j++)
+            adj[i][j] = INT_MAX;
+    }
+}
+
+void Graph::addEdge(int i, int j, int w)
+{
+    adj[i][j] = w;
+    // adj[j][i] = w; directed graph
 }
 
 Graph::~Graph()
 {
+    for (int i = 0; i < V; i++)
+        delete[] adj[i];
     delete[] adj;
 }
 
-void Graph::addEdge(int v, int u, int weight)
+Graph Graph::getTranspose()
 {
-    adj[v].push_back(Edge(v, weight));
-    E++;
-}
+    Graph gt(V);
 
-int Graph::getV()
-{
-    return V;
-}
+    for (int i = 0; i < V; i++)
+    {
+        for (int j = 0; j < V; j++)
+        {
+            gt.addEdge(j, i, adj[i][j]);
+        }
+    }
 
-int Graph::getE()
-{
-    return E;
-}
-
-vector<Edge> Graph::getAdjacent(int v)
-{
-    return this->adj[v];
-}
-
-void Graph::initializeSingleSource(int s)
-{
-    int d[V] = {-1};
-    int pi[V] = {0};
-}
-
-void Graph::relax(int u, int v, int w)
-{
-    int d[V] = {-1};
-    int pi[V] = {0};
-
-    if (d[v] > d[u] + adj[u])
+    return gt;
 }
 
 void Graph::printGraph()
 {
-    for (int v = 0; v < V; v++)
+    for (int i = 0; i < V; i++)
     {
-        cout << v << " => ";
-        for (vector<Edge>::iterator j = adj[v].begin(); j != adj[v].end(); ++j)
+        for (int j = 0; j < V; j++)
         {
-            cout << j->getV() << ", ";
+            if (adj[i][j] != INT_MAX)
+            {
+                cout << adj[i][j] << " ";
+            }
+            else
+            {
+                cout << "i ";
+            }
         }
-        cout << endl;
+        cout << "\n";
     }
+}
+
+vector<int> Graph::topologicalSort()
+{
+    vector<int> in_degree(V, 0);
+
+    for (int u = 0; u < V; u++)
+    {
+        for (int v = 0; v < V; v++)
+        {
+            if (adj[u][v] != INT_MAX)
+            {
+                in_degree[v]++;
+            }
+        }
+    }
+
+    queue<int> q;
+    for (int i = 0; i < V; i++)
+        if (in_degree[i] == 0)
+            q.push(i);
+
+    int cnt = 0;
+
+    vector<int> top_order;
+
+    while (!q.empty())
+    {
+        int u = q.front();
+        q.pop();
+        top_order.push_back(u);
+
+        for (int v = 0; v < V; v++)
+        {
+            if (--in_degree[v] == 0)
+                q.push(v);
+        }
+        cnt++;
+    }
+
+    return top_order;
 }
 
 #endif

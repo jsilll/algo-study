@@ -2,11 +2,11 @@
 
 - [x] Teorema Mestre
 - [x] MergeSort
-- [x] Operações sobre Heaps
+- [x] Heap Basic Operations
 - [x] HeapSort
 - [x] QuickSort
 - [x] CountingSort
-- [x] RadixSort
+- [ ] RadixSort
 - [x] Linear search
 - [x] Binary search
 - [x] Kth Order Element
@@ -17,11 +17,11 @@
 - [x] Korasaju-Sharir
 - [x] Depth-First-Search
 - [x] Breadth-First-Search
-- [ ] Dijkstra
-- [ ] Bellman-Ford
+- [x] Dijkstra
+- [x] Bellman-Ford
 - [ ] Floyd-Warshall
 - [ ] Johnson
 - [ ] Ford-Fulkerson
 - [ ] Edmonds-Karp
-- [ ]  Relabel-to-Front 
-- [ ] Push-to-Front 
+- [ ] Relabel-to-Front 
+- [ ] Push-to-Front
