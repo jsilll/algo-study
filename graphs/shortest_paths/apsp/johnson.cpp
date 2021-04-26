@@ -1,3 +1,4 @@
+// Has a bug somewhere
 #include <iostream>
 #include "../../weighted_graph.h"
 #include "../../../array_utils.h"
@@ -12,9 +13,9 @@ using namespace std;
 // Caso contrário calcular, novo conjunto de pesos não negativos w'
 // de forma a manter todos os caminhos mais curtos no grafo
 
-void Graph::johnson()
+void W_Graph::johnson()
 {
-    Graph g_positive(V + 1);
+    W_Graph g_positive(V + 1);
 
     for (int u = 0; u < V; u++)
     {
@@ -38,7 +39,7 @@ void Graph::johnson()
     }
 
     // Temos a certeza de que nao há ciclos negativos no grafo
-    Graph g_final(V + 1);
+    W_Graph g_final(V + 1);
     // Iterating through all the edges
     for (int u = 0; u < V + 1; u++)
     {
@@ -70,7 +71,7 @@ int main(int argc, char const *argv[])
     // Caminhos mais curtos mantém-se após a repesagem. Se p é
     // um caminho mais curto com função de peso w, então, também é caminho
     // mais curto com função de peso w'
-    Graph g(5);
+    W_Graph g(5);
     g.addEdge(0, 1, 10);
     g.addEdge(0, 4, 5);
     g.addEdge(1, 2, 1);
@@ -88,7 +89,7 @@ int main(int argc, char const *argv[])
 
 typedef pair<int, int> priorityPair;
 
-void Graph::dijkstra(int s, int *d, int *pi)
+void W_Graph::dijkstra(int s, int *d, int *pi)
 {
     // Initialize Single Source
     for (int v = 0; v < V; v++)
@@ -124,7 +125,7 @@ void Graph::dijkstra(int s, int *d, int *pi)
     }
 }
 
-bool Graph::bellmanFord(int s, int *d, int *pi)
+bool W_Graph::bellmanFord(int s, int *d, int *pi)
 {
     int **D = this->buildAdjMatrix();
 

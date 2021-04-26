@@ -9,7 +9,7 @@ typedef pair<int, int> priorityPair;
 // Greedy Algorithm
 // Os caminhos mais curtos respetiam a sub-estrutura ótima
 
-void Graph::dijkstra(int s, int *d, int *pi)
+void W_Graph::dijkstra(int s, int *d, int *pi)
 {
     // Initialize Single Source
     for (int v = 0; v < V; v++)
@@ -52,7 +52,7 @@ void Graph::dijkstra(int s, int *d, int *pi)
 
 int main(int argc, char const *argv[])
 {
-    Graph g(5);
+    W_Graph g(5);
     g.addEdge(0, 1, 10);
     g.addEdge(0, 4, 5);
     g.addEdge(1, 2, 1);

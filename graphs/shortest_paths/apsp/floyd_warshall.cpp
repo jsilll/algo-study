@@ -7,7 +7,7 @@ using namespace std;
 // dij(k) = wij, se k = 0
 // dij(k) = min(dij(k-1), dik(k-1) + dkj(k-1))
 
-void Graph::floydWarshall()
+void W_Graph::floydWarshall()
 {
     int **D = this->buildAdjMatrix();
     int **PI = this->buildPIMatrix();
@@ -38,7 +38,7 @@ void Graph::floydWarshall()
 
 int main(int argc, char const *argv[])
 {
-    Graph g(5);
+    W_Graph g(5);
     g.addEdge(0, 1, 10);
     g.addEdge(0, 4, 5);
     g.addEdge(1, 2, 1);

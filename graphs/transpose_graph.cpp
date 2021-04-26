@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "graph.h"
+#include "weighted_graph.h"
 
 using namespace std;
 
@@ -17,6 +18,21 @@ Graph Graph::getTranspose()
     }
 
     return u;
+}
+
+W_Graph W_Graph::getTranspose()
+{
+    W_Graph gt(V);
+
+    for (int i = 0; i < V; i++)
+    {
+        for (vector<Edge>::iterator itr = adj[i].begin(); itr != adj[i].end(); ++itr)
+        {
+            gt.addEdge(itr->getV(), i, itr->getW());
+        }
+    }
+
+    return gt;
 }
 
 int main(int argc, char const *argv[])

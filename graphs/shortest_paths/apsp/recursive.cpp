@@ -10,7 +10,7 @@ using namespace std;
 // Solucao recursiva (m denota máximo de m arcos no caminho)
 // dij (m) = min(dij(m-1), min(dik(m-1) + wkj)), 0 <= k < V
 
-void Graph::extendShortestPaths(int **D, int **PI)
+void W_Graph::extendShortestPaths(int **D, int **PI)
 {
     static int **adj_matrix = this->buildAdjMatrix();
     int D_new[V][V];
@@ -33,7 +33,7 @@ void Graph::extendShortestPaths(int **D, int **PI)
         }
     }
 
-    // Copying final matrices for returning
+    // Copying final matrices for returning BUG HERE
     for (int i = 0; i < V; i++)
     {
         for (int j = 0; j < V; j++)
@@ -44,7 +44,7 @@ void Graph::extendShortestPaths(int **D, int **PI)
     }
 }
 
-void Graph::shortestPaths()
+void W_Graph::shortestPaths()
 {
     // Calculate number of edges in the graph
     int **D = this->buildAdjMatrix();
@@ -69,7 +69,7 @@ void Graph::shortestPaths()
 
 int main(int argc, char const *argv[])
 {
-    Graph g(5);
+    W_Graph g(5);
     g.addEdge(0, 1, 10);
     g.addEdge(0, 4, 5);
     g.addEdge(1, 2, 1);

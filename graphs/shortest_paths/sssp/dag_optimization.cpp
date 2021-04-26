@@ -1,3 +1,4 @@
+// This file has a bug somewhere
 #include <iostream>
 #include "../../weighted_graph.h"
 #include "../../../vector_utils.h"
@@ -12,7 +13,7 @@ using namespace std;
 // Se o grafo é um DAG, qualquer caminho mais curto do
 // grafo é um sub-sequência da ordenação topológica
 
-void Graph::orderedRelax(int s, vector<int> order)
+void W_Graph::orderedRelax(int s, vector<int> order)
 {
     // Initialize Single Source
     int *d = new int[V];
@@ -52,7 +53,7 @@ void Graph::orderedRelax(int s, vector<int> order)
 
 int main(int argc, char const *argv[])
 {
-    Graph g(6);
+    W_Graph g(6);
     g.addEdge(0, 1, 5);
     g.addEdge(0, 2, 3);
     g.addEdge(1, 2, 2);

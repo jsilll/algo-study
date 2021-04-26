@@ -21,14 +21,14 @@ public:
     int getW() { return weight; }
 };
 
-class Graph
+class W_Graph
 {
     int V;
     vector<Edge> *adj;
 
 public:
-    Graph(int V);
-    ~Graph();
+    W_Graph(int V);
+    ~W_Graph();
 
     // Basic Operations
     void addEdge(int u, int v, int weight);
@@ -38,7 +38,7 @@ public:
     void printGraph();
 
     // Algorithms
-    Graph getTranspose();
+    W_Graph getTranspose();
     vector<int> topologicalSort();
     void dijkstra(int s, int *d, int *pi);
     bool bellmanFord(int s, int *d, int *pi);
@@ -49,29 +49,29 @@ public:
     void johnson();
 };
 
-Graph::Graph(int V)
+W_Graph::W_Graph(int V)
 {
     this->V = V;
     adj = new vector<Edge>[V];
 }
 
-Graph::~Graph()
+W_Graph::~W_Graph()
 {
     delete[] adj;
 }
 
-void Graph::addEdge(int u, int v, int weight)
+void W_Graph::addEdge(int u, int v, int weight)
 {
     Edge edge(v, weight);
     adj[u].push_back(edge);
 }
 
-vector<Edge> Graph::getAdjacent(int v)
+vector<Edge> W_Graph::getAdjacent(int v)
 {
     return adj[v];
 }
 
-int **Graph::buildAdjMatrix()
+int **W_Graph::buildAdjMatrix()
 {
     int **M = new int *[V];
 
@@ -97,7 +97,7 @@ int **Graph::buildAdjMatrix()
     return M;
 }
 
-int **Graph::buildPIMatrix()
+int **W_Graph::buildPIMatrix()
 {
     int **PI = new int *[V];
     for (int u = 0; u < V; u++)
@@ -112,60 +112,7 @@ int **Graph::buildPIMatrix()
     return PI;
 }
 
-void Graph::printGraph()
+void W_Graph::printGraph()
 {
     printMatrix(this->buildAdjMatrix(), V - 1, V - 1);
-}
-
-Graph Graph::getTranspose()
-{
-    Graph gt(V);
-
-    for (int i = 0; i < V; i++)
-    {
-        for (vector<Edge>::iterator itr = adj[i].begin(); itr != adj[i].end(); ++itr)
-        {
-            gt.addEdge(itr->getV(), i, itr->getW());
-        }
-    }
-
-    return gt;
-}
-
-vector<int> Graph::topologicalSort()
-{
-    vector<int> in_degree(V, 0);
-
-    for (int u = 0; u < V; u++)
-    {
-        for (vector<Edge>::iterator itr = adj[u].begin(); itr != adj[u].end(); ++itr)
-        {
-            in_degree[itr->getV()]++;
-        }
-    }
-
-    queue<int> q;
-    for (int i = 0; i < V; i++)
-        if (in_degree[i] == 0)
-            q.push(i);
-
-    int cnt = 0;
-
-    vector<int> top_order;
-
-    while (!q.empty())
-    {
-        int u = q.front();
-        q.pop();
-        top_order.push_back(u);
-
-        for (int v = 0; v < V; v++)
-        {
-            if (--in_degree[v] == 0)
-                q.push(v);
-        }
-        cnt++;
-    }
-
-    return top_order;
 }

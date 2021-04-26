@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "graph.h"
+#include "weighted_graph.h"
 #include "vector_utils.h"
 
 // Algoritmo de Khan
@@ -46,6 +47,44 @@ vector<int> Graph::topologicalSort()
         {
             if (--in_degree[*itr] == 0)
                 q.push(*itr);
+        }
+        cnt++;
+    }
+
+    return top_order;
+}
+
+vector<int> W_Graph::topologicalSort()
+{
+    vector<int> in_degree(V, 0);
+
+    for (int u = 0; u < V; u++)
+    {
+        for (vector<Edge>::iterator itr = adj[u].begin(); itr != adj[u].end(); ++itr)
+        {
+            in_degree[itr->getV()]++;
+        }
+    }
+
+    queue<int> q;
+    for (int i = 0; i < V; i++)
+        if (in_degree[i] == 0)
+            q.push(i);
+
+    int cnt = 0;
+
+    vector<int> top_order;
+
+    while (!q.empty())
+    {
+        int u = q.front();
+        q.pop();
+        top_order.push_back(u);
+
+        for (int v = 0; v < V; v++)
+        {
+            if (--in_degree[v] == 0)
+                q.push(v);
         }
         cnt++;
     }

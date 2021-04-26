@@ -7,7 +7,7 @@ using namespace std;
 // Baseado em sequência da passos de relaxação
 // Apenas requer manutenção da estimativa associada a cada vértice
 
-bool Graph::bellmanFord(int s, int *d, int *pi)
+bool W_Graph::bellmanFord(int s, int *d, int *pi)
 {
 
     int **D = this->buildAdjMatrix();
@@ -59,7 +59,7 @@ bool Graph::bellmanFord(int s, int *d, int *pi)
 
 int main(int argc, char const *argv[])
 {
-    Graph g(5);
+    W_Graph g(5);
     g.addEdge(0, 1, 10);
     g.addEdge(0, 4, 5);
     g.addEdge(1, 2, 1);
