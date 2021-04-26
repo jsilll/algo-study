@@ -27,15 +27,19 @@ void Graph::orderedRelax(int s, vector<int> order)
     d[s] = 0;
 
     // Actual algorithm
-    for (vector<int>::iterator u = order.begin(); u != order.end(); ++u)
+    for (vector<int>::iterator itr1 = order.begin(); itr1 != order.end(); ++itr1)
     {
-        for (int v = 0; v < V; v++)
+        int u = *itr1;
+        for (vector<Edge>::iterator itr2 = adj[u].begin(); itr2 != adj[u].end(); ++itr2)
         {
-            // Relax operation
-            if (adj[*u][v] != INT_MAX && d[v] > d[*u] + adj[*u][v])
+            int v = itr2->getV();
+            int w_uv = itr2->getW();
+
+            // Relax Operation
+            if (d[v] > d[u] + w_uv)
             {
-                d[v] = d[*u] + adj[*u][v];
-                pi[v] = *u;
+                d[v] = d[u] + w_uv;
+                pi[v] = u;
             }
         }
     }
@@ -48,7 +52,7 @@ void Graph::orderedRelax(int s, vector<int> order)
 
 int main(int argc, char const *argv[])
 {
-    Graph g(5);
+    Graph g(6);
     g.addEdge(0, 1, 5);
     g.addEdge(0, 2, 3);
     g.addEdge(1, 2, 2);

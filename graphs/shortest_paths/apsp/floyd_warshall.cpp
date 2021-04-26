@@ -9,15 +9,9 @@ using namespace std;
 
 void Graph::floydWarshall()
 {
-    int **D = new int *[V];
+    int **D = this->buildAdjMatrix();
+    int **PI = this->buildPIMatrix();
     int i, j, k;
-
-    for (i = 0; i < V; i++)
-    {
-        D[i] = new int[V];
-        for (j = 0; j < V; j++)
-            D[i][j] = adj[i][j];
-    }
 
     for (k = 0; k < V; k++)
     {
@@ -25,13 +19,21 @@ void Graph::floydWarshall()
         {
             for (j = 0; j < V; j++)
             {
-                if (D[i][j] > D[i][k] + D[k][j] && D[i][k] != INT_MAX && D[k][j] != INT_MAX)
+                // Isto é a cena das colunas e linhas que o professor desenha nas aulas
+                if (D[i][k] != INT_MAX && D[k][j] != INT_MAX && D[i][j] > D[i][k] + D[k][j])
+                {
                     D[i][j] = D[i][k] + D[k][j];
+                    PI[i][j] = k;
+                }
             }
         }
+        // Each iteration we calculate a new D(k) matrix
     }
 
+    cout << "D Matrix" << endl;
     printMatrix(D, V - 1, V - 1);
+    cout << "PI Matrix" << endl;
+    printMatrix(PI, V - 1, V - 1);
 }
 
 int main(int argc, char const *argv[])

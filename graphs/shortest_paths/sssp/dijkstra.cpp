@@ -30,15 +30,16 @@ void Graph::dijkstra(int s, int *d, int *pi)
         int w = pq.top().first;
         pq.pop();
 
-        for (int v = 0; v < V; v++)
+        // Iterate through its edges
+        for (vector<Edge>::iterator itr = adj[u].begin(); itr != adj[u].end(); ++itr)
         {
             // Must be positive
-            // Relax operation, its being applied more than once for every edge and it shouldnt
-            if (0 <= adj[u][v] && adj[u][v] != INT_MAX && d[v] > d[u] + adj[u][v])
+            if (d[itr->getV()] > d[u] + itr->getW())
             {
-                d[v] = d[u] + adj[u][v];
-                pi[v] = u;
-                pq.push(make_pair(d[v], v)); // Now we must update all the paths that use this one (sub-optimal structure)
+                d[itr->getV()] = d[u] + itr->getW();
+                pi[itr->getV()] = u;
+                // Relax operation, its being applied more than once for every edge and it shouldnt, cuz of how heap (??)
+                pq.push(make_pair(d[itr->getV()], itr->getV())); // Now we must update all the paths that use this one (sub-optimal structure)
             }
         }
     }

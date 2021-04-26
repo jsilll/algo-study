@@ -12,7 +12,7 @@ using namespace std;
 
 void Graph::extendShortestPaths(int **D, int **PI)
 {
-
+    static int **adj_matrix = this->buildAdjMatrix();
     int D_new[V][V];
     int PI_new[V][V];
 
@@ -24,15 +24,16 @@ void Graph::extendShortestPaths(int **D, int **PI)
             {
                 D_new[i][j] = D[i][j];
                 PI_new[i][j] = PI[i][j];
-                if (adj[i][j] != INT_MAX && D_new[i][j] < D[i][k] + adj[k][j])
+                if (adj_matrix[i][j] != INT_MAX && D_new[i][j] < D[i][k] + adj_matrix[k][j])
                 {
-                    D_new[i][j] = D[i][k] + adj[k][j];
+                    D_new[i][j] = D[i][k] + adj_matrix[k][j];
                     PI_new[i][j] = k;
                 }
             }
         }
     }
 
+    // Copying final matrices for returning
     for (int i = 0; i < V; i++)
     {
         for (int j = 0; j < V; j++)
@@ -46,25 +47,13 @@ void Graph::extendShortestPaths(int **D, int **PI)
 void Graph::shortestPaths()
 {
     // Calculate number of edges in the graph
-
-    int **D = new int *[V];
-    int **PI = new int *[V];
+    int **D = this->buildAdjMatrix();
+    int **PI = this->buildAdjMatrix();
 
     int edges = 0;
-    for (int i = 0; i < V; i++)
+    for (int u = 0; u < V; u++)
     {
-        D[i] = new int[V];
-        PI[i] = new int[V];
-        for (int j = 0; j < V; j++)
-        {
-            D[i][j] = adj[i][j];
-            PI[i][j] = -1;
-
-            if (adj[i][j] != INT_MAX)
-            {
-                edges++;
-            }
-        }
+        edges += adj[u].size();
     }
 
     for (int i = 0; i < edges; i++)
@@ -90,11 +79,6 @@ int main(int argc, char const *argv[])
     g.addEdge(4, 1, 3);
     g.addEdge(4, 2, 9);
     g.addEdge(4, 3, 2);
-
-    int number_edges = 9;
-    int D[5][5];
-    int PI[5][5];
-
     g.shortestPaths();
     return 0;
 }

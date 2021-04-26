@@ -9,6 +9,9 @@ using namespace std;
 
 bool Graph::bellmanFord(int s, int *d, int *pi)
 {
+
+    int **D = this->buildAdjMatrix();
+
     // Initialize Single Source
     for (int v = 0; v < V; v++)
     {
@@ -18,16 +21,16 @@ bool Graph::bellmanFord(int s, int *d, int *pi)
 
     d[s] = 0;
 
-    for (int u = 0; u < V - 1; u++)
+    for (int i = 0; i < V - 1; i++)
     {
         for (int u = 0; u < V; u++)
         {
             for (int v = 0; v < V; v++)
             {
                 // Relax operation
-                if (adj[u][v] != INT_MAX && d[v] > d[u] + adj[u][v])
+                if (D[u][v] != INT_MAX && d[v] > d[u] + D[u][v])
                 {
-                    d[v] = d[u] + adj[u][v];
+                    d[v] = d[u] + D[u][v];
                     pi[v] = u;
                 }
             }
@@ -39,7 +42,7 @@ bool Graph::bellmanFord(int s, int *d, int *pi)
     {
         for (int v = 0; v < V; v++)
         {
-            if (adj[u][v] != INT_MAX && d[v] > d[u] + adj[u][v])
+            if (D[u][v] != INT_MAX && d[v] > d[u] + D[u][v])
             {
                 return false;
             }

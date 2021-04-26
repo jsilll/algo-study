@@ -16,14 +16,11 @@ void Graph::johnson()
 {
     Graph g_positive(V + 1);
 
-    for (int i = 0; i < V; i++)
+    for (int u = 0; u < V; u++)
     {
-        for (int j = 0; j < V; j++)
+        for (vector<Edge>::iterator itr = adj[u].begin(); itr != adj[u].end(); ++itr)
         {
-            if (adj[i][j] != INT_MAX)
-            {
-                g_positive.addEdge(i, j, 0);
-            }
+            g_positive.addEdge(u, itr->getV(), itr->getW());
         }
     }
 
@@ -41,23 +38,23 @@ void Graph::johnson()
     }
 
     // Temos a certeza de que nao há ciclos negativos no grafo
-    for (int i = 0; i < V; i++)
+    Graph g_final(V + 1);
+    // Iterating through all the edges
+    for (int u = 0; u < V + 1; u++)
     {
-        for (int j = 0; j < V; j++)
+        vector<Edge> adj_u = g_positive.getAdjacent(u);
+        for (vector<Edge>::iterator itr = adj_u.begin(); itr != adj_u.end(); ++itr)
         {
-            g_positive.addEdge(i, j, adj[i][j] + d[i] - d[j]);
+            int v = itr->getV();
+            int w_uv = itr->getW();
+            g_final.addEdge(u, v, w_uv + d[u] - d[v]);
         }
     }
 
-    int **D = new int *[V + 1];
+    int **D = g_final.buildAdjMatrix();
     for (int i = 0; i < V + 1; i++)
     {
-        D[i] = new int[V + 1];
-    }
-
-    for (int i = 0; i < V + 1; i++)
-    {
-        g_positive.dijkstra(i, d, pi);
+        g_final.dijkstra(i, d, pi);
         for (int j = 0; j < V + 1; j++)
         {
             D[j][i] = d[j];
@@ -112,15 +109,16 @@ void Graph::dijkstra(int s, int *d, int *pi)
         int w = pq.top().first;
         pq.pop();
 
-        for (int v = 0; v < V; v++)
+        // Iterate through its edges
+        for (vector<Edge>::iterator itr = adj[u].begin(); itr != adj[u].end(); ++itr)
         {
             // Must be positive
-            // Relax operation, its being applied more than once for every edge and it shouldnt
-            if (0 <= adj[u][v] && adj[u][v] != INT_MAX && d[v] > d[u] + adj[u][v])
+            if (d[itr->getV()] > d[u] + itr->getW())
             {
-                d[v] = d[u] + adj[u][v];
-                pi[v] = u;
-                pq.push(make_pair(d[v], v)); // Now we must update all the paths that use this one (sub-optimal structure)
+                d[itr->getV()] = d[u] + itr->getW();
+                pi[itr->getV()] = u;
+                // Relax operation, its being applied more than once for every edge and it shouldnt, cuz of how heap (??)
+                pq.push(make_pair(d[itr->getV()], itr->getV())); // Now we must update all the paths that use this one (sub-optimal structure)
             }
         }
     }
@@ -128,6 +126,8 @@ void Graph::dijkstra(int s, int *d, int *pi)
 
 bool Graph::bellmanFord(int s, int *d, int *pi)
 {
+    int **D = this->buildAdjMatrix();
+
     // Initialize Single Source
     for (int v = 0; v < V; v++)
     {
@@ -144,9 +144,9 @@ bool Graph::bellmanFord(int s, int *d, int *pi)
             for (int v = 0; v < V; v++)
             {
                 // Relax operation
-                if (adj[u][v] != INT_MAX && d[v] > d[u] + adj[u][v])
+                if (D[u][v] != INT_MAX && d[v] > d[u] + D[u][v])
                 {
-                    d[v] = d[u] + adj[u][v];
+                    d[v] = d[u] + D[u][v];
                     pi[v] = u;
                 }
             }
@@ -158,7 +158,7 @@ bool Graph::bellmanFord(int s, int *d, int *pi)
     {
         for (int v = 0; v < V; v++)
         {
-            if (adj[u][v] != INT_MAX && d[v] > d[u] + adj[u][v])
+            if (D[u][v] != INT_MAX && d[v] > d[u] + D[u][v])
             {
                 return false;
             }
