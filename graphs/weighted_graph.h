@@ -18,7 +18,7 @@ public:
         weight = _w;
     }
     int getV() { return v; }
-    int getW() { return weight; }
+    int getWeight() { return weight; }
 };
 
 class W_Graph
@@ -90,7 +90,7 @@ int **W_Graph::buildAdjMatrix()
     {
         for (vector<Edge>::iterator itr = adj[i].begin(); itr != adj[i].end(); ++itr)
         {
-            M[i][itr->getV()] = itr->getW();
+            M[i][itr->getV()] = itr->getWeight();
         }
     }
 

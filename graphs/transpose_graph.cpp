@@ -28,7 +28,7 @@ W_Graph W_Graph::getTranspose()
     {
         for (vector<Edge>::iterator itr = adj[i].begin(); itr != adj[i].end(); ++itr)
         {
-            gt.addEdge(itr->getV(), i, itr->getW());
+            gt.addEdge(itr->getV(), i, itr->getWeight());
         }
     }
 

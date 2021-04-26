@@ -25,7 +25,13 @@ using namespace std;
 // Capacidade de residual de uma aresta é o fluxo adicional que ainda se pode
 // envia de u para v cf(u,v) = c(u,v) - f(u,v)
 
-// Redes residuais
+// Redes residual é a rede original onde só aparecem as arestas que ainda
+// podem ser aumentadas, ou seja, com capacidade redisual > 0 (cf > 0)
+
+// Um caminho de aumento, é um caminho simples de s para t na rede residual de Gt
+// A capacidade residual de um caminho de aumento é definida por:
+// min{cf(u, v)}
+
 // Caminhos de aumento
 // Cortes em redes de fluxo
 // Teorema do Fluxo-Máximo Corte-Mínimo

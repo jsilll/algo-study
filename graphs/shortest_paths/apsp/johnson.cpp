@@ -21,7 +21,7 @@ void W_Graph::johnson()
     {
         for (vector<Edge>::iterator itr = adj[u].begin(); itr != adj[u].end(); ++itr)
         {
-            g_positive.addEdge(u, itr->getV(), itr->getW());
+            g_positive.addEdge(u, itr->getV(), itr->getWeight());
         }
     }
 
@@ -47,7 +47,7 @@ void W_Graph::johnson()
         for (vector<Edge>::iterator itr = adj_u.begin(); itr != adj_u.end(); ++itr)
         {
             int v = itr->getV();
-            int w_uv = itr->getW();
+            int w_uv = itr->getWeight();
             g_final.addEdge(u, v, w_uv + d[u] - d[v]);
         }
     }
@@ -114,9 +114,9 @@ void W_Graph::dijkstra(int s, int *d, int *pi)
         for (vector<Edge>::iterator itr = adj[u].begin(); itr != adj[u].end(); ++itr)
         {
             // Must be positive
-            if (d[itr->getV()] > d[u] + itr->getW())
+            if (d[itr->getV()] > d[u] + itr->getWeight())
             {
-                d[itr->getV()] = d[u] + itr->getW();
+                d[itr->getV()] = d[u] + itr->getWeight();
                 pi[itr->getV()] = u;
                 // Relax operation, its being applied more than once for every edge and it shouldnt, cuz of how heap (??)
                 pq.push(make_pair(d[itr->getV()], itr->getV())); // Now we must update all the paths that use this one (sub-optimal structure)
