@@ -2,25 +2,29 @@
 #include <limits.h>
 #include <vector>
 #include <queue>
+
+#include "weighted_graph.h"
+
 using namespace std;
 
-class Edge
+class F_Edge
 {
+private:
     int v;
     int c;
     int f;
 
 public:
-    Edge(int _v, int _c)
+    F_Edge(int _v, int _c, int _f = 0)
     {
         v = _v;
         c = _c;
-        f = 0;
+        f = _f;
     }
 
     int getV() { return v; }
     int getCapacity() { return c; }
-    int getFlow() { return f; }
+    int getFlow() { return this->f; }
     int getResidualCapacity()
     {
         return c - f;
@@ -34,27 +38,30 @@ public:
 
 class F_Graph
 {
+private:
     int V;
-    vector<Edge> *adj;
+    vector<F_Edge> *adj;
 
 public:
     F_Graph(int V);
     ~F_Graph();
 
     // Basic Operations
-    void addEdge(int u, int v, int weight);
-    vector<Edge> getAdjacent(int v);
+    void addEdge(int u, int v, int capacity);
+    vector<F_Edge> getAdjacent(int v);
     void printGraph();
 
     // Algorithms
     F_Graph getTranspose();
     vector<int> topologicalSort();
+    W_Graph buildResidualNetwork();
+    int edmondsKarp(int s, int t);
 };
 
 F_Graph::F_Graph(int V)
 {
     this->V = V;
-    adj = new vector<Edge>[V];
+    adj = new vector<F_Edge>[V];
 }
 
 F_Graph::~F_Graph()
@@ -62,13 +69,12 @@ F_Graph::~F_Graph()
     delete[] adj;
 }
 
-void F_Graph::addEdge(int u, int v, int weight)
+void F_Graph::addEdge(int u, int v, int capacity)
 {
-    Edge edge(v, weight);
-    adj[u].push_back(edge);
+    adj[u].push_back(F_Edge(v, capacity));
 }
 
-vector<Edge> F_Graph::getAdjacent(int v)
+vector<F_Edge> F_Graph::getAdjacent(int v)
 {
     return adj[v];
 }
@@ -79,7 +85,7 @@ void F_Graph::printGraph()
     for (int u = 0; u < V; u++)
     {
         cout << u << " : ";
-        for (vector<Edge>::iterator itr = adj[u].begin(); itr != adj[u].end(); ++itr)
+        for (vector<F_Edge>::iterator itr = adj[u].begin(); itr != adj[u].end(); ++itr)
         {
             cout << "(" << itr->getV() << ", " << itr->getFlow() << "/" << itr->getCapacity() << "), ";
         }

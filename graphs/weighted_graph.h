@@ -40,6 +40,7 @@ public:
     // Algorithms
     W_Graph getTranspose();
     vector<int> topologicalSort();
+    void bfs(int s, int t, vector<int> *d, vector<int> *pi);
     void dijkstra(int s, int *d, int *pi);
     bool bellmanFord(int s, int *d, int *pi);
     void orderedRelax(int s, vector<int> order);
@@ -115,4 +116,37 @@ int **W_Graph::buildPIMatrix()
 void W_Graph::printGraph()
 {
     printMatrix(this->buildAdjMatrix(), V - 1, V - 1);
+}
+
+void W_Graph::bfs(int s, int t, vector<int> *d, vector<int> *pi) // bfs that finished when destination is reached
+{
+    vector<bool> visited(V, false); // -1 white 0 grey 1 black
+    queue<int> q;                   // priority queue
+
+    visited[s] = true;
+    (*d)[s] = 0;
+    q.push(s);
+
+    while (!q.empty())
+    {
+        int u = q.front();
+        q.pop();
+
+        for (vector<Edge>::iterator itr = adj[u].begin(); itr != adj[u].end(); ++itr)
+        {
+            int v = itr->getV();
+            if (visited[v] == false)
+            {
+                visited[v] = true;
+                q.push(v);
+                (*d)[v] = (*d)[u] + 1;
+                (*pi)[v] = u;
+
+                if (v == t)
+                {
+                    return;
+                }
+            }
+        }
+    }
 }

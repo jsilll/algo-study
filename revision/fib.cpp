@@ -51,8 +51,8 @@ int fib3(int n)
 
 int main(int argc, char const *argv[])
 {
-    // cout << fib1(100) << endl;
+    // cout << fib1(5) << endl;
     cout << fib2(5) << endl;
-    // cout << fib3(100) << endl;
+    // cout << fib3(5) << endl;
     return 0;
 }

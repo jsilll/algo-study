@@ -28,7 +28,7 @@ public:
     vector<int> topologicalSort();
     Graph getTranspose();
     void DFS(int v, vector<int> *pi, vector<int> *times, int *current_time);
-    void BFS(int s, vector<int> *d, vector<int> *pi);
+    void bfs(int s, vector<int> *d, vector<int> *pi);
     vector<int> orderedDFS(vector<int> order);
     vector<int> getDFSClosingOrder();
     void TarjanUtil(int u, int disc[], int low[], stack<int> *st, bool stackMember[]);

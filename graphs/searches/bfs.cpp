@@ -10,7 +10,7 @@ using namespace std;
 // When the algo finishes, the distance vector must correpond with the size of the
 // shortest paths from source s to the vertex v
 // Calculates the BF tree from with root s
-void Graph::BFS(int s, vector<int> *d, vector<int> *pi)
+void Graph::bfs(int s, vector<int> *d, vector<int> *pi)
 {
     vector<bool> visited(V, false); // -1 white 0 grey 1 black
     queue<int> q;                   // priority queue
@@ -51,7 +51,7 @@ int main(int argc, char const *argv[])
     vector<int> d(4, -1);
     vector<int> pi(4, -1);
 
-    g.BFS(2, &d, &pi);
+    g.bfs(2, &d, &pi);
 
     cout << "d vector" << endl;
     printVector(d);
