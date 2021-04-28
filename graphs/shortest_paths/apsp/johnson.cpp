@@ -1,4 +1,3 @@
-// Has a bug somewhere
 #include <iostream>
 #include "../../weighted_graph.h"
 #include "../../../array_utils.h"
@@ -58,7 +57,7 @@ void W_Graph::johnson()
         g_final.dijkstra(i, d, pi);
         for (int j = 0; j < V + 1; j++)
         {
-            D[j][i] = d[j];
+            D[i][j] = d[j];
         }
     }
 
@@ -85,7 +84,7 @@ int main(int argc, char const *argv[])
     return 0;
 }
 
-// Problemas a compilar, isto nao devia estar aqui
+// Isto esta aqui so para ser mais facil de compilar
 
 typedef pair<int, int> priorityPair;
 
@@ -145,7 +144,7 @@ bool W_Graph::bellmanFord(int s, int *d, int *pi)
             for (int v = 0; v < V; v++)
             {
                 // Relax operation
-                if (D[u][v] != INT_MAX && d[v] > d[u] + D[u][v])
+                if (D[u][v] != INT_MAX && d[u] != INT_MAX && d[v] > d[u] + D[u][v])
                 {
                     d[v] = d[u] + D[u][v];
                     pi[v] = u;

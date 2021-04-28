@@ -39,7 +39,7 @@ void W_Graph::dijkstra(int s, int *d, int *pi)
                 d[itr->getV()] = d[u] + itr->getWeight();
                 pi[itr->getV()] = u;
                 // Relax operation, its being applied more than once for every edge and it shouldnt, cuz of how heap (??)
-                pq.push(make_pair(d[itr->getV()], itr->getV())); // Now we must update all the paths that use this one (sub-optimal structure)
+                pq.push(make_pair(d[itr->getV()], itr->getV())); // Lazy decrease key
             }
         }
     }

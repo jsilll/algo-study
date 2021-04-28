@@ -1,6 +1,6 @@
 #include <iostream>
-#include "../flow_graph.h"
-#include "../../vector_utils.h"
+#include "../../flow_graph.h"
+#include "../../../vector_utils.h"
 
 using namespace std;
 
@@ -76,7 +76,6 @@ int F_Graph::edmondsKarp(int s, int t)
             pi[i] = -1;
         }
 
-        // gf.~W_Graph();
         W_Graph gf = this->buildResidualNetwork();
         gf.bfs(s, t, &d, &pi);
     }
@@ -94,14 +93,18 @@ int main(int argc, char const *argv[])
     g.addEdge(0, 1, 16);
     g.addEdge(0, 2, 13);
     g.addEdge(1, 3, 12);
-    g.addEdge(1, 2, 10);
     g.addEdge(2, 1, 4);
     g.addEdge(2, 4, 14);
     g.addEdge(3, 2, 9);
     g.addEdge(3, 5, 20);
     g.addEdge(4, 3, 7);
     g.addEdge(4, 5, 4);
-    g.edmondsKarp(0, 5);
+    g.edmondsKarp(0, 5); // O(VE^2)
     g.printGraph();
     return 0;
 }
+
+// Tambem pode ser usado para os problemas de
+// correspondencia bipartida maxima
+
+// Problema da Fuga

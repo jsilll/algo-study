@@ -21,7 +21,6 @@
 - [x] Bellman-Ford
 - [x] Floyd-Warshall
 - [x] Johnson
-- [ ] Ford-Fulkerson
-- [ ] Edmonds-Karp
+- [x] Edmonds-Karp
 - [ ] Relabel-to-Front 
 - [ ] Push-to-Front

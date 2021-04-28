@@ -20,11 +20,12 @@ void W_Graph::extendShortestPaths(int **D, int **PI)
     {
         for (int j = 0; j < V; j++)
         {
+            D_new[i][j] = D[i][j];
+            PI_new[i][j] = PI[i][j];
+
             for (int k = 0; k < V; k++)
             {
-                D_new[i][j] = D[i][j];
-                PI_new[i][j] = PI[i][j];
-                if (adj_matrix[i][j] != INT_MAX && D_new[i][j] < D[i][k] + adj_matrix[k][j])
+                if (adj_matrix[k][j] != INT_MAX && D[i][k] != INT_MAX && D_new[i][j] > D[i][k] + adj_matrix[k][j])
                 {
                     D_new[i][j] = D[i][k] + adj_matrix[k][j];
                     PI_new[i][j] = k;
@@ -33,7 +34,7 @@ void W_Graph::extendShortestPaths(int **D, int **PI)
         }
     }
 
-    // Copying final matrices for returning BUG HERE
+    // Copying final matrices for returning
     for (int i = 0; i < V; i++)
     {
         for (int j = 0; j < V; j++)
@@ -48,7 +49,7 @@ void W_Graph::shortestPaths()
 {
     // Calculate number of edges in the graph
     int **D = this->buildAdjMatrix();
-    int **PI = this->buildAdjMatrix();
+    int **PI = this->buildPIMatrix();
 
     int edges = 0;
     for (int u = 0; u < V; u++)
