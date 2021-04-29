@@ -26,5 +26,5 @@
 - [x] Prim 
 
 #### Problemas conhecidos
-- Dijkstra não desempata lexicograficamente, causa problemas no dijkstra.cpp, johnson.cpp e prim.cpp)
+- Dijkstra não desempata lexicograficamente, causa problemas no dijkstra.cpp, johnson.cpp e prim.cpp
 - Prim ainda não funciona
