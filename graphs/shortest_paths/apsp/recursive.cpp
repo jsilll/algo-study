@@ -12,7 +12,7 @@ using namespace std;
 
 void W_Graph::extendShortestPaths(int **D, int **PI)
 {
-    static int **adj_matrix = this->buildAdjMatrix();
+    static int **adj_matrix = this->buildAdjMatrix(); // Only called once
     int D_new[V][V];
     int PI_new[V][V];
 

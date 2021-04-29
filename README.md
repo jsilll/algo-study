@@ -22,5 +22,4 @@
 - [x] Floyd-Warshall
 - [x] Johnson
 - [x] Edmonds-Karp
-- [ ] Relabel-to-Front 
-- [ ] Push-to-Front
+- [x] Relabel-to-Front 

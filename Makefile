@@ -5,3 +5,5 @@ clean:
 
 count:
 	find . -name '*.cpp' | xargs wc -l
+	find . -name '*.h' | xargs wc -l
+	find . -name '*.md' | xargs wc -l

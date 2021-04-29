@@ -6,7 +6,7 @@ using namespace std;
 typedef pair<int, int> priorityPair;
 
 // Todos os arcos devem ter pesos positivos
-// Greedy Algorithm
+// Greedy Algorithm (Heap)
 // Os caminhos mais curtos respetiam a sub-estrutura ótima
 
 void W_Graph::dijkstra(int s, int *d, int *pi)
@@ -38,7 +38,6 @@ void W_Graph::dijkstra(int s, int *d, int *pi)
             {
                 d[itr->getV()] = d[u] + itr->getWeight();
                 pi[itr->getV()] = u;
-                // Relax operation, its being applied more than once for every edge and it shouldnt, cuz of how heap (??)
                 pq.push(make_pair(d[itr->getV()], itr->getV())); // Lazy decrease key
             }
         }
