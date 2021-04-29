@@ -33,7 +33,6 @@ void W_Graph::dijkstra(int s, int *d, int *pi)
         // Iterate through its edges
         for (vector<Edge>::iterator itr = adj[u].begin(); itr != adj[u].end(); ++itr)
         {
-            // Must be positive
             if (d[itr->getV()] > d[u] + itr->getW())
             {
                 d[itr->getV()] = d[u] + itr->getW();

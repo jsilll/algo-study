@@ -21,6 +21,7 @@ int main(int argc, char const *argv[])
     {
         if (times[u] == -1)
         {
+            // By your boy Tarjan
             g.dfs(u, &pi, &times, &current_time);
         }
         current_time++;

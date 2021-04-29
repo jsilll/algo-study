@@ -136,6 +136,7 @@ int main(int argc, char const *argv[])
     g.addEdge(3, 1, 7);
     g.relabelToFront(0, 4);
 
+    // Calcular o corte mínimo com uma bfs na rede residual
     vector<int> d(5, -1);
     vector<int> pi(5, -1);
     W_Graph gf = g.buildResidualNetwork();

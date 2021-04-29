@@ -27,6 +27,7 @@ public:
 class W_Graph
 {
     int V;
+    int E;
     vector<Edge> *adj;
 
 public:
@@ -35,6 +36,7 @@ public:
 
     // Basic Operations
     void addEdge(int u, int v, int weight);
+    void addEdgeUndirected(int u, int v, int weight);
     vector<Edge> getAdjacent(int v);
     int **buildAdjMatrix();
     int **buildPIMatrix();
@@ -60,11 +62,13 @@ public:
 
     // MST
     void kruskal();
+    void prim(int s, int *d, int *pi);
 };
 
 W_Graph::W_Graph(int V)
 {
     this->V = V;
+    this->E = 0;
     adj = new vector<Edge>[V];
 }
 
@@ -76,6 +80,14 @@ W_Graph::~W_Graph()
 void W_Graph::addEdge(int u, int v, int weight)
 {
     adj[u].push_back(Edge(u, v, weight));
+    E++;
+}
+
+void W_Graph::addEdgeUndirected(int u, int v, int weight)
+{
+    adj[u].push_back(Edge(u, v, weight));
+    adj[v].push_back(Edge(u, v, weight));
+    E++;
 }
 
 vector<Edge> W_Graph::getAdjacent(int v)

@@ -1,6 +1,7 @@
 #include <iostream>
-
 #include <bits/stdc++.h>
+
+#include "subsets.h"
 #include "../weighted_graph.h"
 #include "../../vector_utils.h"
 
@@ -19,18 +20,30 @@ bool compareEdges(Edge *e1, Edge *e2)
     }
 
     // Ordem Lexicografica para desempatar A->0, B->1 ...
-    return (e1->getU() + e1->getV()) < (e2->getU() + e2->getV());
+
+    if (e1->getU() < e2->getU())
+    {
+        return true;
+    }
+
+    if (e1->getU() > e2->getU())
+    {
+        return false;
+    }
+
+    return e1->getV() < e2->getV();
 }
 
 void W_Graph::kruskal()
 {
-    vector<int> components(V, -1); // É preciso uma melhor estrura (set) para melhorar a complexidade
+    subset *subsets = new subset[(V * sizeof(subset))];
     vector<Edge *> edges;
 
-    // Initializing components vector
-    for (int u = 0; u < V; u++)
+    // Create V subsets with single elements
+    for (int v = 0; v < V; ++v)
     {
-        components[u] = u;
+        subsets[v].parent = v;
+        subsets[v].rank = 0;
     }
 
     // Initializing Edges Vector
@@ -42,32 +55,24 @@ void W_Graph::kruskal()
         }
     }
 
+    // Sort all the edges by weigth and lexicografically
     sort(edges.begin(), edges.end(), compareEdges);
 
-    int seen_vertex = 1;
-    cout << "(u, v, w)" << endl;
+    cout << "Minimum Spanning Tree Edges (u, v, w)" << endl;
     for (vector<Edge *>::iterator itr = edges.begin(); itr != edges.end(); ++itr)
     {
-        if (components[(*itr)->getV()] != components[(*itr)->getU()])
+        int rootU = findSubSetRoot(subsets, (*itr)->getU());
+        int rootV = findSubSetRoot(subsets, (*itr)->getV());
+
+        if (rootU != rootV)
         {
             // Adicionar a aresta a A
             cout << "(" << (*itr)->getU() << ", " << (*itr)->getV() << ", " << (*itr)->getW() << ")" << endl;
-            seen_vertex++;
 
-            // Mudar o component de todos os vertices (nada eficiente)
-            int old_component = components[(*itr)->getU()];
-            int new_component = components[(*itr)->getV()];
-            for (int u = 0; u < V; u++)
-            {
-                if (components[u] == old_component)
-                {
-                    components[u] = new_component;
-                }
-            }
+            // Juntar os dois subsets
+            mergeSubSets(subsets, rootU, rootV);
         }
     }
-
-    cout << seen_vertex << endl;
 }
 
 int main(int argc, char const *argv[])
@@ -82,6 +87,6 @@ int main(int argc, char const *argv[])
     g.addEdge(2, 4, 4);
     g.addEdge(3, 4, 6);
     g.addEdge(4, 5, 5);
-    g.kruskal();
+    g.kruskal(); // O(E log(V))
     return 0;
 }
