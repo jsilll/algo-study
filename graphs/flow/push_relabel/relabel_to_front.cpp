@@ -101,6 +101,8 @@ void F_Graph::relabelToFront(int s, int t)
         cout << "Discharge " << u << endl;
         cout << "e : ";
         printArray(e, V - 1);
+        cout << "h : ";
+        printArray(h, V - 1);
         this->printGraph();
         cout << endl;
 
