@@ -25,9 +25,7 @@ void W_Graph::dijkstra(int s, int *d, int *pi)
 
     while (!pq.empty())
     {
-
         int u = pq.top().second;
-        int w = pq.top().first;
         pq.pop();
 
         // Iterate through its edges

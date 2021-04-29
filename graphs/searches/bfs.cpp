@@ -20,16 +20,12 @@ int main(int argc, char const *argv[])
     g.addEdge(2, 0);
     g.addEdge(2, 3);
     g.addEdge(3, 3);
-
     vector<int> d(4, -1);
     vector<int> pi(4, -1);
-
     g.bfs(2, &d, &pi);
-
     cout << "d vector" << endl;
     printVector(d);
     cout << "pi vector" << endl;
     printVector(pi);
-
     return 0;
 }

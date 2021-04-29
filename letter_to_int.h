@@ -7,7 +7,7 @@ using namespace std;
 
 int l2i(char c)
 {
-    int ord = char(c);
+    int ord = int(c);
     if (65 <= ord && ord <= 90)
     {
         return (ord - 65) % 26;
@@ -19,6 +19,11 @@ int l2i(char c)
     }
 
     return -1;
+}
+
+char i2l(int i)
+{
+    return char(i + 65);
 }
 
 #endif

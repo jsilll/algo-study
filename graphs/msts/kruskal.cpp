@@ -4,6 +4,7 @@
 #include "subsets.h"
 #include "../weighted_graph.h"
 #include "../../vector_utils.h"
+#include "../../letter_to_int.h"
 
 using namespace std;
 
@@ -67,7 +68,7 @@ void W_Graph::kruskal()
         if (rootU != rootV)
         {
             // Adicionar a aresta a A
-            cout << "(" << (*itr)->getU() << ", " << (*itr)->getV() << ", " << (*itr)->getW() << ")" << endl;
+            cout << "(" << i2l((*itr)->getU()) << ", " << i2l((*itr)->getV()) << ", " << (*itr)->getW() << ")" << endl;
 
             // Juntar os dois subsets
             mergeSubSets(subsets, rootU, rootV);
@@ -77,16 +78,34 @@ void W_Graph::kruskal()
 
 int main(int argc, char const *argv[])
 {
-    W_Graph g(6);
-    g.addEdge(0, 1, 4);
-    g.addEdge(0, 2, 1);
-    g.addEdge(0, 3, 3);
-    g.addEdge(1, 2, 4);
-    g.addEdge(1, 3, 4);
-    g.addEdge(2, 3, 2);
-    g.addEdge(2, 4, 4);
-    g.addEdge(3, 4, 6);
-    g.addEdge(4, 5, 5);
-    g.kruskal(); // O(E log(V))
+    W_Graph g(9);
+    g.addEdge(l2i('A'), l2i('B'), 4);
+    g.addEdge(l2i('A'), l2i('H'), 8);
+    g.addEdge(l2i('B'), l2i('C'), 8);
+    g.addEdge(l2i('B'), l2i('H'), 11);
+    g.addEdge(l2i('C'), l2i('D'), 7);
+    g.addEdge(l2i('C'), l2i('F'), 4);
+    g.addEdge(l2i('C'), l2i('I'), 2);
+    g.addEdge(l2i('D'), l2i('F'), 14);
+    g.addEdge(l2i('D'), l2i('E'), 9);
+    g.addEdge(l2i('E'), l2i('F'), 10);
+    g.addEdge(l2i('F'), l2i('G'), 2);
+    g.addEdge(l2i('F'), l2i('G'), 2);
+    g.addEdge(l2i('G'), l2i('H'), 1);
+    g.addEdge(l2i('G'), l2i('I'), 6);
+    g.addEdge(l2i('H'), l2i('I'), 7);
+    g.kruskal();
     return 0;
 }
+
+// W_Graph g(6);
+// g.addEdge(0, 1, 4);
+// g.addEdge(0, 2, 1);
+// g.addEdge(0, 3, 3);
+// g.addEdge(1, 2, 4);
+// g.addEdge(1, 3, 4);
+// g.addEdge(2, 3, 2);
+// g.addEdge(2, 4, 4);
+// g.addEdge(3, 4, 6);
+// g.addEdge(4, 5, 5);
+// g.kruskal(); // O(E log(V))

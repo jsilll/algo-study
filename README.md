@@ -23,3 +23,5 @@
 - [x] Johnson
 - [x] Edmonds-Karp
 - [x] Relabel-to-Front 
+- [x] Kruskal 
+- [x] Prim 
