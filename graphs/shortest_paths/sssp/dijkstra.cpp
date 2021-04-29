@@ -34,9 +34,9 @@ void W_Graph::dijkstra(int s, int *d, int *pi)
         for (vector<Edge>::iterator itr = adj[u].begin(); itr != adj[u].end(); ++itr)
         {
             // Must be positive
-            if (d[itr->getV()] > d[u] + itr->getWeight())
+            if (d[itr->getV()] > d[u] + itr->getW())
             {
-                d[itr->getV()] = d[u] + itr->getWeight();
+                d[itr->getV()] = d[u] + itr->getW();
                 pi[itr->getV()] = u;
                 pq.push(make_pair(d[itr->getV()], itr->getV())); // Lazy decrease key
             }

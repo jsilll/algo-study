@@ -34,7 +34,7 @@ void W_Graph::orderedRelax(int s, vector<int> order)
         for (vector<Edge>::iterator itr2 = adj[u].begin(); itr2 != adj[u].end(); ++itr2)
         {
             int v = itr2->getV();
-            int w_uv = itr2->getWeight();
+            int w_uv = itr2->getW();
 
             // Relax Operation
             if (d[v] > d[u] + w_uv)
