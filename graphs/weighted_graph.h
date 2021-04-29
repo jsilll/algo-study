@@ -8,17 +8,20 @@ using namespace std;
 
 class Edge
 {
+    int u;
     int v;
     int weight;
 
 public:
-    Edge(int _v, int _w)
+    Edge(int _u, int _v, int _w)
     {
+        u = _u;
         v = _v;
         weight = _w;
     }
+    int getU() { return u; }
     int getV() { return v; }
-    int getWeight() { return weight; }
+    int getW() { return weight; }
 };
 
 class W_Graph
@@ -37,17 +40,26 @@ public:
     int **buildPIMatrix();
     void printGraph();
 
-    // Algorithms
+    // General Purpose Algorithms
     W_Graph getTranspose();
     vector<int> topologicalSort();
+
+    // Searches
     void bfs(int s, int t, vector<int> *d, vector<int> *pi);
-    void dijkstra(int s, int *d, int *pi);
+
+    // SSSP
     bool bellmanFord(int s, int *d, int *pi);
     void orderedRelax(int s, vector<int> order);
+    void dijkstra(int s, int *d, int *pi);
+
+    // APSP
+    void floydWarshall();
     void extendShortestPaths(int **D, int **PI);
     void shortestPaths();
-    void floydWarshall();
     void johnson();
+
+    // MST
+    void kruskal();
 };
 
 W_Graph::W_Graph(int V)
@@ -63,8 +75,7 @@ W_Graph::~W_Graph()
 
 void W_Graph::addEdge(int u, int v, int weight)
 {
-    Edge edge(v, weight);
-    adj[u].push_back(edge);
+    adj[u].push_back(Edge(u, v, weight));
 }
 
 vector<Edge> W_Graph::getAdjacent(int v)
@@ -91,7 +102,7 @@ int **W_Graph::buildAdjMatrix()
     {
         for (vector<Edge>::iterator itr = adj[i].begin(); itr != adj[i].end(); ++itr)
         {
-            M[i][itr->getV()] = itr->getWeight();
+            M[i][itr->getV()] = itr->getW();
         }
     }
 
@@ -118,7 +129,61 @@ void W_Graph::printGraph()
     printMatrix(this->buildAdjMatrix(), V - 1, V - 1);
 }
 
-void W_Graph::bfs(int s, int t, vector<int> *d, vector<int> *pi) // bfs that finished when destination is reached
+W_Graph W_Graph::getTranspose()
+{
+    W_Graph gt(V);
+
+    for (int i = 0; i < V; i++)
+    {
+        for (vector<Edge>::iterator itr = adj[i].begin(); itr != adj[i].end(); ++itr)
+        {
+            gt.addEdge(itr->getV(), i, itr->getW());
+        }
+    }
+
+    return gt;
+}
+
+vector<int> W_Graph::topologicalSort()
+{
+    vector<int> in_degree(V, 0);
+
+    for (int u = 0; u < V; u++)
+    {
+        for (vector<Edge>::iterator itr = adj[u].begin(); itr != adj[u].end(); ++itr)
+        {
+            in_degree[itr->getV()]++;
+        }
+    }
+
+    queue<int> q;
+    for (int i = 0; i < V; i++)
+        if (in_degree[i] == 0)
+            q.push(i);
+
+    int cnt = 0;
+
+    vector<int> top_order;
+
+    while (!q.empty())
+    {
+        int u = q.front();
+        q.pop();
+        top_order.push_back(u);
+
+        for (int v = 0; v < V; v++)
+        {
+            if (--in_degree[v] == 0)
+                q.push(v);
+        }
+        cnt++;
+    }
+
+    return top_order;
+}
+
+// modified version of bfs that finishes when destination (t) is reached
+void W_Graph::bfs(int s, int t, vector<int> *d, vector<int> *pi)
 {
     vector<bool> visited(V, false); // -1 white 0 grey 1 black
     queue<int> q;                   // priority queue

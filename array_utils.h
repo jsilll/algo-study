@@ -21,6 +21,14 @@ void printArray(int *A, int size)
     cout << endl;
 }
 
+void fillMatrixDiag(int **M, int n, int m)
+{
+    for (int i = 0; i <= n; i++)
+    {
+        M[i][i] = m;
+    }
+}
+
 void printMatrix(int **M, int n, int m)
 {
     for (int i = 0; i <= n; i++)

@@ -52,16 +52,22 @@ void W_Graph::johnson()
     }
 
     int **D = g_final.buildAdjMatrix();
+    int **PI = g_final.buildPIMatrix();
+
     for (int i = 0; i < V + 1; i++)
     {
         g_final.dijkstra(i, d, pi);
         for (int j = 0; j < V + 1; j++)
         {
             D[i][j] = d[j];
+            PI[i][j] = pi[j];
         }
     }
 
+    cout << "D Matrix" << endl;
     printMatrix(D, V, V);
+    cout << "PI Matrix" << endl;
+    printMatrix(PI, V, V);
 }
 
 int main(int argc, char const *argv[])

@@ -73,6 +73,6 @@ int main(int argc, char const *argv[])
     int *d = new int[5];
     int *pi = new int[5];
 
-    cout << g.bellmanFord(0, d, pi) << endl; // supostamente O(V^3)
+    g.bellmanFord(0, d, pi); // supostamente O(V^3)
     return 0;
 }

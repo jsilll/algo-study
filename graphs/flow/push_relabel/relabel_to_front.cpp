@@ -2,49 +2,46 @@
 #include <stack>
 
 #include "../../flow_graph.h"
+#include "../../../vector_utils.h"
 
 using namespace std;
 
 void F_Graph::discharge(int u)
 {
-    // Pode e devia estar mais eficiente, porque tem de
-    // construir a rede residual sempre que é chamado
+    // Nao é o mais eficiente possivel porque
+    // itera sempre por todos e nao recomeca onde ficou
+    // desde o ultimo
 
-    // Percorrer todos os arcos na rede residual
-    // Forward existe de ainda há residualCapacity
-    // Backwards existe se há flow
-
-    vector<F_Edge *>::iterator itr = N[u].begin();
     while (e[u] > 0)
     {
-        if (itr == N[u].end())
+        if (N_current[u] == N[u].end())
         {
             relabel(u);
-            itr = N[u].begin();
+            N_current[u] = N[u].begin(); // Reset iterator
         }
 
         // Forward Edge case
-        int v = (*itr)->getV();
+        int v = (*N_current[u])->getV();
         if (v != u)
         {
-            if ((*itr)->getResidualCapacity() && h[u] == h[v] + 1)
+            if ((*N_current[u])->getResidualCapacity() && h[u] == h[v] + 1)
             {
-                push(u, v, *itr);
+                push(u, v, *N_current[u]);
             }
         }
 
         // Backwards Edge case
         else
         {
-            v = (*itr)->getU();
-            if ((*itr)->getFlow() && h[u] == h[v] + 1)
+            v = (*N_current[u])->getU();
+            if ((*N_current[u])->getFlow() && h[u] == h[v] + 1)
             {
                 // caso de refluxo
-                push(u, v, *itr);
+                push(u, v, *N_current[u]);
             }
         }
 
-        itr++;
+        N_current[u]++;
     }
 }
 
@@ -63,6 +60,15 @@ void F_Graph::relabelToFront(int s, int t)
         }
     }
 
+    // Initialize N_current list
+    for (int u = 0; u < V; u++)
+    {
+        N_current[u] = N[u].begin();
+    }
+
+    // Setting up L for V - {s, t} in 0 -> V order
+    // Vai-se tornando numa ordenação topológica da
+    // rede residual admissível
     stack<int> L;
     for (int u = V - 1; u > -1; u--)
     {
@@ -72,7 +78,7 @@ void F_Graph::relabelToFront(int s, int t)
         }
     }
 
-    // Algorithm begin
+    // Actual Algorithm
     int u;
     if (!L.empty())
     {
@@ -84,14 +90,14 @@ void F_Graph::relabelToFront(int s, int t)
         return;
     }
 
-    while (1)
+    while (1) // assim nao avalia sempre se u != NULL
     {
         int u_old = u;
         int h_old = h[u];
 
         discharge(u);
 
-        // Debuggings e mambos
+        // Prints e mambos
         cout << "Discharge " << u << endl;
         cout << "e : ";
         printArray(e, V - 1);
@@ -129,5 +135,12 @@ int main(int argc, char const *argv[])
     g.addEdge(3, 4, 10);
     g.addEdge(3, 1, 7);
     g.relabelToFront(0, 4);
+
+    vector<int> d(5, -1);
+    vector<int> pi(5, -1);
+    W_Graph gf = g.buildResidualNetwork();
+    gf.bfs(0, 4, &d, &pi);
+    cout << "Corte Minimo:" << endl;
+    printVector(d);
     return 0;
 }

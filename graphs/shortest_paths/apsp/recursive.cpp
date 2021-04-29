@@ -62,6 +62,9 @@ void W_Graph::shortestPaths()
         extendShortestPaths(D, PI);
     }
 
+    fillMatrixDiag(D, V - 1, 0);
+    fillMatrixDiag(PI, V - 1, -1);
+
     cout << "D Matrix" << endl;
     printMatrix(D, V - 1, V - 1);
     cout << "PI Matrix" << endl;

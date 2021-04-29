@@ -11,6 +11,7 @@ void W_Graph::floydWarshall()
 {
     int **D = this->buildAdjMatrix();
     int **PI = this->buildPIMatrix();
+
     int i, j, k;
 
     for (k = 0; k < V; k++)
@@ -27,8 +28,10 @@ void W_Graph::floydWarshall()
                 }
             }
         }
-        // Each iteration we calculate a new D(k) matrix
     }
+
+    fillMatrixDiag(D, V - 1, 0);
+    fillMatrixDiag(PI, V - 1, -1);
 
     cout << "D Matrix" << endl;
     printMatrix(D, V - 1, V - 1);

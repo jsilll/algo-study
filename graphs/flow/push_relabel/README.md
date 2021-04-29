@@ -36,4 +36,4 @@ Enquanto há, pelo menos, um vértice com excesso de fluxo no grafo empurrar ess
 1. para qualquer aresta (u,v) pertencente à rede residual, h[u] =< h[v] + 1
 1. Se 2 se verifica então não existe um caminho entre s e t na rede residual.
 
-Através de 3 e do Teorema de Fluxo Máximo Corte Mínimo garantimos que quando o algoritmo acaba f é um fluxo máximo.
+Através de 3 e do Teorema de Fluxo Máximo Corte Mínimo garantimos que quando o algoritmo acaba f é um fluxo máximo garantidamente.

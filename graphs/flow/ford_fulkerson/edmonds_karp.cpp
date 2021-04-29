@@ -7,31 +7,6 @@ using namespace std;
 // Escolher o melhor caminho <=> escolher o caminho
 // com menor número de arcos
 
-W_Graph F_Graph::buildResidualNetwork()
-{
-    W_Graph gf(V); // Construir a rede residual
-
-    for (int u = 0; u < V; u++)
-    {
-        for (vector<F_Edge>::iterator itr = adj[u].begin(); itr != adj[u].end(); ++itr)
-        {
-            int v = itr->getV();
-            int f = itr->getFlow();
-            int rc = itr->getResidualCapacity();
-            if (rc)
-            {
-                gf.addEdge(u, v, rc);
-            }
-            if (f)
-            {
-                gf.addEdge(v, u, f);
-            }
-        }
-    }
-
-    return gf;
-}
-
 int F_Graph::edmondsKarp(int s, int t)
 {
     int total_flow = 0, new_flow;

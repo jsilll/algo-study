@@ -2,7 +2,7 @@
 #include <queue>
 
 #include "../graph.h"
-#include "../vector_utils.h"
+#include "../../vector_utils.h"
 
 using namespace std;
 
@@ -17,7 +17,7 @@ vector<int> Graph::getDFSClosingOrder()
     {
         if (times[i] == -1)
         {
-            DFS(i, &pi, &times, &current_time);
+            dfs(i, &pi, &times, &current_time);
         }
     }
 
@@ -42,8 +42,9 @@ vector<int> Graph::orderedDFS(vector<int> order)
     {
         if (times[*itr] == -1)
         {
-            DFS(*itr, &pi, &times, &current_time);
+            dfs(*itr, &pi, &times, &current_time);
         }
+        current_time++;
     }
 
     return pi;
