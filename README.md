@@ -1,5 +1,4 @@
 # asa-study
-
 - [x] Teorema Mestre
 - [x] MergeSort
 - [x] Heap Basic Operations
@@ -25,3 +24,7 @@
 - [x] Relabel-to-Front 
 - [x] Kruskal 
 - [x] Prim 
+
+#### Problemas conhecidos
+- Dijkstra não desempata lexicograficamente, causa problemas no dijkstra.cpp, johnson.cpp e prim.cpp)
+- Prim ainda não funciona
