@@ -36,7 +36,7 @@ public:
 
     // Basic Operations
     void addEdge(int u, int v, int weight);
-    void addEdgeUndirected(int u, int v, int weight);
+    void addEdgeDouble(int u, int v, int weight);
     vector<Edge> getAdjacent(int v);
     int **buildAdjMatrix();
     int **buildPIMatrix();
@@ -83,7 +83,7 @@ void W_Graph::addEdge(int u, int v, int weight)
     E++;
 }
 
-void W_Graph::addEdgeUndirected(int u, int v, int weight)
+void W_Graph::addEdgeDouble(int u, int v, int weight)
 {
     adj[u].push_back(Edge(u, v, weight));
     adj[v].push_back(Edge(v, u, weight));
