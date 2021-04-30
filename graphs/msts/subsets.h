@@ -39,4 +39,13 @@ void mergeSubSets(subset subsets[], int u, int v) // O(log(V))
     }
 }
 
+void printSubSets(subset subsets[], int l)
+{
+    cout << "Subsets v -> p, r" << endl;
+    for (int i = 0; i < l; i++)
+    {
+        cout << i << " -> " << subsets[i].parent << ", " << subsets[i].rank << endl;
+    }
+}
+
 #endif

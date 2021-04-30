@@ -2,6 +2,7 @@
 #include "../../weighted_graph.h"
 #include "../../../array_utils.h"
 #include "../../../vector_utils.h"
+#include "../../pq_compare.h"
 
 using namespace std;
 
@@ -92,8 +93,6 @@ int main(int argc, char const *argv[])
 
 // Isto esta aqui so para ser mais facil de compilar
 
-typedef pair<int, int> priorityPair;
-
 void W_Graph::dijkstra(int s, int *d, int *pi)
 {
     // Initialize Single Source
@@ -105,7 +104,7 @@ void W_Graph::dijkstra(int s, int *d, int *pi)
 
     d[s] = 0;
 
-    priority_queue<priorityPair, vector<priorityPair>, greater<priorityPair>> pq;
+    priority_queue<priorityPair, vector<priorityPair>, pq_LowestDistanceFirst_Lexical> pq;
     pq.push(make_pair(0, s));
 
     while (!pq.empty())

@@ -2,6 +2,7 @@
 #define ARRAY_UTILS_H
 
 #include <iostream>
+#include <climits>
 
 using namespace std;
 

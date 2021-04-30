@@ -8,7 +8,7 @@
 
 using namespace std;
 
-bool compareEdges(Edge *e1, Edge *e2)
+bool compareEdgesLexical(Edge *e1, Edge *e2)
 {
     if (e1->getW() < e2->getW())
     {
@@ -57,7 +57,7 @@ void W_Graph::kruskal()
     }
 
     // Sort all the edges by weigth and lexicografically
-    sort(edges.begin(), edges.end(), compareEdges);
+    sort(edges.begin(), edges.end(), compareEdgesLexical);
 
     cout << "Minimum Spanning Tree Edges (u, v, w)" << endl;
     for (vector<Edge *>::iterator itr = edges.begin(); itr != edges.end(); ++itr)
@@ -99,6 +99,7 @@ int main(int argc, char const *argv[])
     return 0;
 }
 
+// Outro grafo para testar
 // W_Graph g(6);
 // g.addEdge(0, 1, 4);
 // g.addEdge(0, 2, 1);

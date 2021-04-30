@@ -1,9 +1,8 @@
 #include <iostream>
 #include "../../weighted_graph.h"
 #include "../../../array_utils.h"
+#include "../../pq_compare.h"
 using namespace std;
-
-typedef pair<int, int> priorityPair;
 
 // Todos os arcos devem ter pesos positivos
 // Greedy Algorithm (Heap)
@@ -20,7 +19,7 @@ void W_Graph::dijkstra(int s, int *d, int *pi)
 
     d[s] = 0;
 
-    priority_queue<priorityPair, vector<priorityPair>, greater<priorityPair>> pq;
+    priority_queue<priorityPair, vector<priorityPair>, pq_LowestDistanceFirst_Lexical> pq;
     pq.push(make_pair(0, s));
 
     while (!pq.empty())
