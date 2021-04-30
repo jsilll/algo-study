@@ -22,7 +22,8 @@ public:
 
     // Basic Operations
     void addEdge(int v, int u);
-    void addEdgeDouble(int v, int u) int getV();
+    void addEdgeDouble(int v, int u);
+    int getV();
     int getE();
     vector<int> getAdjacent(int v);
     void printGraph();

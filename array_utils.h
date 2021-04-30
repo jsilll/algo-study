@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <climits>
+#include "graphs/letter_to_int.h"
 
 using namespace std;
 
@@ -13,6 +14,22 @@ void printArray(int *A, int size)
         if (A[i] != INT_MAX)
         {
             cout << A[i] << " ";
+        }
+        else
+        {
+            cout << "i ";
+        }
+    }
+    cout << endl;
+}
+
+void printArrayi2l(int *A, int size)
+{
+    for (int i = 0; i <= size; i++)
+    {
+        if (A[i] != INT_MAX)
+        {
+            cout << i2l(A[i]) << " ";
         }
         else
         {
