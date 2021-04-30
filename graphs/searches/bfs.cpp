@@ -1,8 +1,8 @@
 #include <iostream>
 #include <queue>
 
-#include "../graph.h"
 #include "../../vector_utils.h"
+#include "../graph.h"
 
 using namespace std;
 
@@ -13,16 +13,20 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
-    Graph g(4);
-    g.addEdge(0, 1);
-    g.addEdge(0, 2);
-    g.addEdge(1, 2);
-    g.addEdge(2, 0);
-    g.addEdge(2, 3);
-    g.addEdge(3, 3);
-    vector<int> d(4, -1);
-    vector<int> pi(4, -1);
-    g.bfs(2, &d, &pi);
+    Graph g(8);
+    g.addEdge(l2i('A'), l2i('B'));
+    g.addEdge(l2i('A'), l2i('C'));
+    g.addEdge(l2i('A'), l2i('D'));
+    g.addEdge(l2i('B'), l2i('E'));
+    g.addEdge(l2i('B'), l2i('F'));
+    g.addEdge(l2i('C'), l2i('F'));
+    g.addEdge(l2i('E'), l2i('F'));
+    g.addEdge(l2i('D'), l2i('G'));
+    g.addEdge(l2i('D'), l2i('H'));
+    g.addEdge(l2i('G'), l2i('H'));
+    vector<int> d(8, -1);
+    vector<int> pi(8, -1);
+    g.bfs(3, &d, &pi);
     cout << "d vector" << endl;
     printVector(d);
     cout << "pi vector" << endl;

@@ -6,6 +6,8 @@
 #include <stack>
 #include <queue>
 
+#include "../vector_utils.h"
+
 using namespace std;
 
 class Graph
@@ -54,6 +56,13 @@ Graph::~Graph()
 void Graph::addEdge(int v, int u)
 {
     adj[v].push_back(u);
+    E++;
+}
+
+void Graph::addEdgeDouble(int v, int u)
+{
+    adj[v].push_back(u);
+    adj[u].push_back(v);
     E++;
 }
 

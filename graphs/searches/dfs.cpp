@@ -1,6 +1,6 @@
 #include <iostream>
-#include "../graph.h"
 #include "../../vector_utils.h"
+#include "../graph.h"
 using namespace std;
 
 int main(int argc, char const *argv[])

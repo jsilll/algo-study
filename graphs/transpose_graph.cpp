@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "graph.h"
 #include "weighted_graph.h"
+#include "graph.h"
 
 using namespace std;
 

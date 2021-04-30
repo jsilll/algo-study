@@ -1,8 +1,8 @@
 // This file has a bug somewhere
 #include <iostream>
-#include "../../weighted_graph.h"
 #include "../../../vector_utils.h"
 #include "../../../array_utils.h"
+#include "../../weighted_graph.h"
 
 using namespace std;
 

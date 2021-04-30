@@ -2,9 +2,9 @@
 #include <queue>
 #include <vector>
 
-#include "graph.h"
-#include "weighted_graph.h"
 #include "../vector_utils.h"
+#include "weighted_graph.h"
+#include "graph.h"
 
 // Algoritmo de Khan
 // Usar uma queue e comecar pelas sources do grafo
@@ -15,8 +15,6 @@
 // Alternativa
 // Fazer uma DFS e adicionar os vértices ao inicio da ordem
 // topológica à medida que os vamos fechando
-
-
 
 int main(int argc, char const *argv[])
 {
