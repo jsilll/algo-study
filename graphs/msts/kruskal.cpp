@@ -1,10 +1,10 @@
 #include <iostream>
 #include <bits/stdc++.h>
 
-#include "subsets.h"
-#include "../weighted_graph.h"
 #include "../../vector_utils.h"
-#include "../../letter_to_int.h"
+#include "../weighted_graph.h"
+#include "../letter_to_int.h"
+#include "subsets.h"
 
 using namespace std;
 
@@ -78,6 +78,7 @@ void W_Graph::kruskal()
 
 int main(int argc, char const *argv[])
 {
+    // Escrever as arestas lexicograficamente ex: A -> B e nao B -> A
     W_Graph g(9);
     g.addEdge(l2i('A'), l2i('B'), 4);
     g.addEdge(l2i('A'), l2i('H'), 8);

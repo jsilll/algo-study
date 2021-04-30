@@ -29,8 +29,13 @@ void mergeSubSets(subset subsets[], int u, int v) // O(log(V))
 
     else
     {
+        // Desempatar à esquerda
         subsets[rootV].parent = rootU;
         subsets[rootU].rank++;
+
+        // Desempatar à direita
+        // subsets[rootU].parent = rootV;
+        // subsets[rootV].rank++;
     }
 }
 
