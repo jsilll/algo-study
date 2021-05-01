@@ -38,7 +38,7 @@ public:
 
     // SCCS
     void TarjanUtil(int u, int disc[], int low[], stack<int> *st, bool stackMember[]);
-    void Tarjan();
+    void Tarjan(int s);
     vector<int> orderedDFS(vector<int> order);
     vector<int> getDFSClosingOrder();
 };

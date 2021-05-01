@@ -1,6 +1,10 @@
 #ifndef SUBSETS_H
 #define SUBSETS_H
 
+#include <iostream>
+
+using namespace std;
+
 class subset
 {
 public:
@@ -16,36 +20,43 @@ int findSubSetRoot(subset subsets[], int i) // O(log(V))
     return subsets[i].parent;
 }
 
-void mergeSubSets(subset subsets[], int u, int v) // O(log(V))
+void mergeSubSets(subset subsets[], int x, int y) // O(log(V))
 {
-    int rootU = findSubSetRoot(subsets, u);
-    int rootV = findSubSetRoot(subsets, v);
+    int rootX = findSubSetRoot(subsets, x);
+    int rootY = findSubSetRoot(subsets, y);
 
-    if (subsets[rootU].rank < subsets[rootV].rank)
-        subsets[rootU].parent = rootV;
+    if (subsets[rootX].rank < subsets[rootY].rank)
+        subsets[rootX].parent = rootY;
 
-    else if (subsets[rootU].rank > subsets[rootV].rank)
-        subsets[rootV].parent = rootU;
+    else if (subsets[rootX].rank > subsets[rootY].rank)
+        subsets[rootY].parent = rootX;
 
     else
     {
         // Desempatar à esquerda
-        subsets[rootV].parent = rootU;
-        subsets[rootU].rank++;
+        // subsets[rootY].parent = rootX;
+        // subsets[rootX].rank++;
 
         // Desempatar à direita
-        // subsets[rootU].parent = rootV;
-        // subsets[rootV].rank++;
+        subsets[rootX].parent = rootY;
+        subsets[rootY].rank++;
     }
 }
 
 void printSubSets(subset subsets[], int l)
 {
-    cout << "Subsets v -> p, r" << endl;
+    cout << "Ranks" << endl;
     for (int i = 0; i < l; i++)
     {
-        cout << i << " -> " << subsets[i].parent << ", " << subsets[i].rank << endl;
+        cout << subsets[i].rank << " ";
     }
+    cout << endl;
+    cout << "PIs" << endl;
+    for (int i = 0; i < l; i++)
+    {
+        cout << subsets[i].parent << " ";
+    }
+    cout << endl;
 }
 
 #endif
