@@ -29,18 +29,20 @@ public:
     void printGraph();
 
     // General Purpose Algos
-    vector<int> topologicalSort();
+    vector<int> topologicalSortKhan();
+    int *topologicalSort();
     Graph getTranspose();
 
     // Searches
-    void dfs(int v, vector<int> *pi, vector<int> *times, int *current_time);
+    void dfsUtil(int v, vector<int> *pi, vector<int> *times, int *current_time);
+    void dfs(vector<int> *pi, vector<int> *times, int *current_time);
     void bfs(int s, vector<int> *d, vector<int> *pi);
 
     // SCCS
-    void TarjanUtil(int u, int disc[], int low[], stack<int> *st, bool stackMember[]);
-    void Tarjan(int s);
-    vector<int> orderedDFS(vector<int> order);
-    vector<int> getDFSClosingOrder();
+    void tarjanUtil(int u, int disc[], int low[], stack<int> *st, bool stackMember[]);
+    void tarjan(int s);
+    vector<int> orderedDFS(int *order);
+    void kosarajuSharir();
 };
 
 Graph::Graph(int V)
@@ -95,7 +97,7 @@ void Graph::printGraph()
     }
 }
 
-vector<int> Graph::topologicalSort()
+vector<int> Graph::topologicalSortKhan()
 {
     vector<int> in_degree(V, 0);
 
@@ -113,7 +115,6 @@ vector<int> Graph::topologicalSort()
             q.push(i);
 
     int cnt = 0;
-
     vector<int> top_order;
 
     while (!q.empty())
@@ -133,6 +134,21 @@ vector<int> Graph::topologicalSort()
     return top_order;
 }
 
+int *Graph::topologicalSort()
+{
+    int current_time = 0;
+    vector<int> times(V, -1);
+    vector<int> pi(V, -1);
+    this->dfs(&pi, &times, &current_time);
+    int *order = new int[V];
+    printVector(times);
+    for (int u = 0; u < V; u++)
+    {
+        order[V - 1 - times[u]] = u;
+    }
+    return order;
+}
+
 Graph Graph::getTranspose()
 {
     Graph u(V);
@@ -148,18 +164,30 @@ Graph Graph::getTranspose()
     return u;
 }
 
-void Graph::dfs(int v, vector<int> *pi, vector<int> *times, int *current_time)
+void Graph::dfsUtil(int v, vector<int> *pi, vector<int> *times, int *current_time)
 {
+    (*times)[v] = 0;
     for (vector<int>::iterator itr = adj[v].begin(); itr != adj[v].end(); ++itr)
     {
         if ((*times)[*itr] == -1)
         {
-            (*times)[*itr] = 0;
             (*pi)[*itr] = v;
-            dfs(*itr, pi, times, current_time);
+            dfsUtil(*itr, pi, times, current_time);
         }
     }
     (*times)[v] = (*current_time)++;
+}
+
+void Graph::dfs(vector<int> *pi, vector<int> *times, int *current_time)
+{
+    for (int u = 0; u < V; u++)
+    {
+        if ((*times)[u] == -1)
+        {
+            dfsUtil(u, pi, times, current_time);
+        }
+        (*current_time)++;
+    }
 }
 
 void Graph::bfs(int s, vector<int> *d, vector<int> *pi)

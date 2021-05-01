@@ -2,77 +2,51 @@
 #include <queue>
 
 #include "../../vector_utils.h"
+#include "../../array_utils.h"
 #include "../graph.h"
 
 using namespace std;
 
-// Wrapper function for DFS method
-vector<int> Graph::getDFSClosingOrder()
-{
-    int current_time = 0;
-    vector<int> times(V, -1);
-    vector<int> pi(V, -1);
-
-    for (int i = 0; i < V; i++)
-    {
-        if (times[i] == -1)
-        {
-            dfs(i, &pi, &times, &current_time);
-        }
-    }
-
-    vector<int> closing_order(V, 0);
-
-    for (int i = 0; i < V; i++)
-    {
-        closing_order[V - times[i]] = i;
-    }
-
-    return closing_order;
-}
-
 // Perform a DFS on the graph following an order
-vector<int> Graph::orderedDFS(vector<int> order)
+vector<int> Graph::orderedDFS(int *order)
 {
     int current_time = 0;
     vector<int> times(V, -1);
     vector<int> pi(V, -1);
 
-    for (vector<int>::iterator itr = order.begin(); itr != order.end(); ++itr)
+    for (int u = 0; u < V; u++)
     {
-        if (times[*itr] == -1)
+        if (times[order[u]] == -1)
         {
-            dfs(*itr, &pi, &times, &current_time);
+            dfsUtil(order[u], &pi, &times, &current_time);
         }
         current_time++;
     }
-
     return pi;
+}
+
+void Graph::kosarajuSharir()
+{
+    int *top_order = this->topologicalSort(0);
+    printVector(this->getTranspose().orderedDFS(top_order));
 }
 
 int main(int argc, char const *argv[])
 {
     Graph g(8);
-    g.addEdge(0, 1);
-    g.addEdge(1, 2);
-    g.addEdge(2, 3);
-    g.addEdge(2, 4);
-    g.addEdge(3, 0);
+    g.addEdge(0, 3);
+    g.addEdge(3, 4);
+    g.addEdge(4, 0);
     g.addEdge(4, 5);
+    g.addEdge(4, 6);
+    g.addEdge(5, 3);
     g.addEdge(5, 6);
-    g.addEdge(6, 4);
+    g.addEdge(6, 1);
     g.addEdge(6, 7);
-
-    vector<int> pi = g.getTranspose().orderedDFS(g.getDFSClosingOrder());
-    printVector(pi);
-    int number_of_sccs = 0;
-    for (vector<int>::iterator itr = pi.begin(); itr != pi.end(); ++itr)
-    {
-        if (*itr == -1)
-        {
-            number_of_sccs++;
-        }
-    }
-    cout << "There's " << number_of_sccs << " sccs in this graph." << endl;
+    g.addEdge(7, 2);
+    g.addEdge(2, 1);
+    g.addEdge(2, 6);
+    cout << "DF Tree" << endl;
+    g.kosarajuSharir();
     return 0;
 }

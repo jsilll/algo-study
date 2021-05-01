@@ -2,8 +2,7 @@
 #include <queue>
 #include <vector>
 
-#include "../vector_utils.h"
-#include "weighted_graph.h"
+#include "../array_utils.h"
 #include "graph.h"
 
 // Algoritmo de Khan
@@ -18,13 +17,21 @@
 
 int main(int argc, char const *argv[])
 {
-    Graph g(10);
-    g.addEdge(0, 9);
-    g.addEdge(0, 8);
-    g.addEdge(0, 7);
-    g.addEdge(0, 6);
-    vector<int> top_order = g.topologicalSort();
-    g.printGraph();
-    printVector(top_order);
+    int V = 8;
+    Graph g(8);
+    g.addEdge(0, 3);
+    g.addEdge(3, 4);
+    g.addEdge(4, 0);
+    g.addEdge(4, 5);
+    g.addEdge(4, 6);
+    g.addEdge(5, 3);
+    g.addEdge(5, 6);
+    g.addEdge(6, 1);
+    g.addEdge(6, 7);
+    g.addEdge(7, 2);
+    g.addEdge(2, 1);
+    g.addEdge(2, 6);
+    cout << "Topological Order" << endl;
+    printArray(g.topologicalSort(), V - 1);
     return 0;
 }

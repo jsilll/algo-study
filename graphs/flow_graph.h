@@ -62,7 +62,6 @@ public:
 
     // Ford-Fulkerson
     F_Graph getTranspose();
-    vector<int> topologicalSort();
     W_Graph buildResidualNetwork();
     int edmondsKarp(int s, int t);
 

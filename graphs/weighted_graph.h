@@ -44,7 +44,7 @@ public:
 
     // General Purpose Algorithms
     W_Graph getTranspose();
-    vector<int> topologicalSort();
+    int *topologicalSort();
 
     // Searches
     void bfs(int s, int t, vector<int> *d, vector<int> *pi);
@@ -156,42 +156,19 @@ W_Graph W_Graph::getTranspose()
     return gt;
 }
 
-vector<int> W_Graph::topologicalSort()
+int *W_Graph::topologicalSort()
 {
-    vector<int> in_degree(V, 0);
+    int current_time = 0;
+    vector<int> times(V, -1);
+    vector<int> pi(V, -1);
+    this->dfs(s, &pi, &times, &current_time);
 
+    int *order = new int[V];
     for (int u = 0; u < V; u++)
     {
-        for (vector<Edge>::iterator itr = adj[u].begin(); itr != adj[u].end(); ++itr)
-        {
-            in_degree[itr->getV()]++;
-        }
+        order[V - times[u]] = u;
     }
-
-    queue<int> q;
-    for (int i = 0; i < V; i++)
-        if (in_degree[i] == 0)
-            q.push(i);
-
-    int cnt = 0;
-
-    vector<int> top_order;
-
-    while (!q.empty())
-    {
-        int u = q.front();
-        q.pop();
-        top_order.push_back(u);
-
-        for (int v = 0; v < V; v++)
-        {
-            if (--in_degree[v] == 0)
-                q.push(v);
-        }
-        cnt++;
-    }
-
-    return top_order;
+    return order;
 }
 
 // modified version of bfs that finishes when destination (t) is reached
