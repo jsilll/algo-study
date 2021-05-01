@@ -55,7 +55,7 @@ void printMatrix(int **M, int n, int m)
     }
 }
 
-void swap(int arr[], int i, int j)
+void swap(int *arr, int i, int j)
 {
     int aux = arr[i];
     arr[i] = arr[j];

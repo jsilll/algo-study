@@ -11,7 +11,7 @@ void printVector(vector<int> vec)
 {
     for (vector<int>::iterator itr = vec.begin(); itr != vec.end(); itr++)
     {
-        cout << *itr << ", ";
+        cout << *itr << " ";
     }
     cout << endl;
 }
@@ -20,7 +20,7 @@ void printVectori2l(vector<int> vec)
 {
     for (vector<int>::iterator itr = vec.begin(); itr != vec.end(); itr++)
     {
-        cout << i2l(*itr) << ", ";
+        cout << i2l(*itr) << " ";
     }
     cout << endl;
 }
