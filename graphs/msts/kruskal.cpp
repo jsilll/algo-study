@@ -74,11 +74,14 @@ void W_Graph::kruskal()
             mergeSubSets(subsets, rootU, rootV);
         }
     }
+
+    printSubSets(subsets, V);
 }
 
 int main(int argc, char const *argv[])
 {
-    // Escrever as arestas lexicograficamente ex: A -> B e nao B -> A
+    // Escrever as arestas lexicograficamente
+    // ex: A -> B e nao B -> A, afeta a ordem
     W_Graph g(9);
     g.addEdge(l2i('A'), l2i('B'), 4);
     g.addEdge(l2i('A'), l2i('H'), 8);

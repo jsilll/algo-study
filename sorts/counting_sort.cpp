@@ -43,5 +43,3 @@ int main()
     cout << "Sorted character array is " << arr;
     return 0;
 }
-
-// This code is contributed by rathbhupendra

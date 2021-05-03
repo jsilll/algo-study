@@ -1,5 +1,4 @@
 ## Minimum Spanning Trees
-
 Dado um grafo G = (V, E, w) não dirigido e pesado, calcular um subconjunto dos arcos de G, T contido em E, tal que:
 - T não contém ciclos
 - T abrange todos os vértices de G

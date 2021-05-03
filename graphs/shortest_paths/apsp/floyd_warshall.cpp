@@ -52,7 +52,7 @@ int main(int argc, char const *argv[])
     g.addEdge(4, 2, 9);
     g.addEdge(4, 3, 2);
     g.floydWarshall(); // O(n^3)
-    // Se (i,j) != i entao pertence ao fecho transitivo do grafo
+    // Se (i,j) != "i" (na matrix de adjacencicas) entao pertence ao fecho transitivo do grafo
     // O fecho transitivo de um grafo é o conjunto de vértices (i,j)
     // tal que existe um caminho de i para j
     return 0;

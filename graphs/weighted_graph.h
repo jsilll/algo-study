@@ -44,7 +44,6 @@ public:
 
     // General Purpose Algorithms
     W_Graph getTranspose();
-    int *topologicalSort();
 
     // Searches
     void bfs(int s, int t, vector<int> *d, vector<int> *pi);
@@ -154,21 +153,6 @@ W_Graph W_Graph::getTranspose()
     }
 
     return gt;
-}
-
-int *W_Graph::topologicalSort()
-{
-    int current_time = 0;
-    vector<int> times(V, -1);
-    vector<int> pi(V, -1);
-    this->dfs(s, &pi, &times, &current_time);
-
-    int *order = new int[V];
-    for (int u = 0; u < V; u++)
-    {
-        order[V - times[u]] = u;
-    }
-    return order;
 }
 
 // modified version of bfs that finishes when destination (t) is reached

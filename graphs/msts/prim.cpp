@@ -11,8 +11,6 @@ using namespace std;
 // Greedy Algo, dijkstra modificado
 void Graph::prim(int s, int *key, int *pi)
 {
-    bool *pqMember = new bool[V];
-
     // Initialize Single Source
     for (int v = 0; v < V; v++)
     {
@@ -30,6 +28,7 @@ void Graph::prim(int s, int *key, int *pi)
     }
 
     // Initializing priority queue
+    bool *pqMember = new bool[V];
     priority_queue<priorityPair, vector<priorityPair>, pq_LowestDistanceFirst_Lexical> pq;
     for (int v = 0; v < V; v++)
     {
@@ -86,6 +85,7 @@ int main(int argc, char const *argv[])
     int *pi = new int[V];
     int offset = -1;
     // Nao interessa a ordem como colocamos as arestas
+    // Nem a ordem dos vertices em cada aresta
     g.addEdge(1 + offset, 2 + offset, 6);
     g.addEdge(1 + offset, 4 + offset, 7);
     g.addEdge(2 + offset, 3 + offset, 5);

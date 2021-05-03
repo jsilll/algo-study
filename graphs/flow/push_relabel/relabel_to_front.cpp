@@ -90,7 +90,7 @@ void F_Graph::relabelToFront(int s, int t)
         return;
     }
 
-    while (1) // assim nao avalia sempre se u != NULL
+    while (1)
     {
         int u_old = u;
         int h_old = h[u];
