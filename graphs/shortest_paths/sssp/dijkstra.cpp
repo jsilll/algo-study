@@ -10,7 +10,6 @@ using namespace std;
 
 void W_Graph::dijkstra(int s, int *d, int *pi)
 {
-
     // Initialize Single Source
     for (int v = 0; v < V; v++)
     {
@@ -42,7 +41,8 @@ void W_Graph::dijkstra(int s, int *d, int *pi)
         // Iterate through its edges
         for (vector<Edge>::iterator itr = adj[u].begin(); itr != adj[u].end(); ++itr)
         {
-            if (d[itr->getV()] > d[u] + itr->getW())
+            // Check if d[u] != INT_MAX otherwise sum may overflow
+            if (pqMember[itr->getV()] && d[u] != INT_MAX && d[itr->getV()] > d[u] + itr->getW())
             {
                 d[itr->getV()] = d[u] + itr->getW();
                 pi[itr->getV()] = u;

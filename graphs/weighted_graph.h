@@ -5,6 +5,7 @@
 using namespace std;
 
 #include "../array_utils.h"
+#include "../vector_utils.h"
 
 class Edge
 {
@@ -44,9 +45,12 @@ public:
 
     // General Purpose Algorithms
     W_Graph getTranspose();
+    vector<int> topologicalSort();
 
     // Searches
     void bfs(int s, int t, vector<int> *d, vector<int> *pi);
+    void dfsUtil(int v, vector<int> *pi, vector<int> *times, int *current_time);
+    void dfs(vector<int> *pi, vector<int> *times, int *current_time);
 
     // SSSP
     bool bellmanFord(int s, int *d, int *pi);
@@ -155,6 +159,21 @@ W_Graph W_Graph::getTranspose()
     return gt;
 }
 
+vector<int> W_Graph::topologicalSort()
+{
+    int current_time = 0;
+    vector<int> times(V, -1);
+    vector<int> pi(V, -1);
+    this->dfs(&pi, &times, &current_time);
+    vector<int> order(V, 0);
+    // printVector(times);
+    for (int u = 0; u < V; u++)
+    {
+        order[V - 1 - times[u]] = u;
+    }
+    return order;
+}
+
 // modified version of bfs that finishes when destination (t) is reached
 void W_Graph::bfs(int s, int t, vector<int> *d, vector<int> *pi)
 {
@@ -186,5 +205,31 @@ void W_Graph::bfs(int s, int t, vector<int> *d, vector<int> *pi)
                 }
             }
         }
+    }
+}
+
+void W_Graph::dfsUtil(int v, vector<int> *pi, vector<int> *times, int *current_time)
+{
+    (*times)[v] = 0;
+    for (vector<Edge>::iterator itr = adj[v].begin(); itr != adj[v].end(); ++itr)
+    {
+        if ((*times)[itr->getV()] == -1)
+        {
+            (*pi)[itr->getV()] = v;
+            dfsUtil(itr->getV(), pi, times, current_time);
+        }
+    }
+    (*times)[v] = (*current_time)++;
+}
+
+void W_Graph::dfs(vector<int> *pi, vector<int> *times, int *current_time)
+{
+    for (int u = 0; u < V; u++)
+    {
+        if ((*times)[u] == -1)
+        {
+            dfsUtil(u, pi, times, current_time);
+        }
+        (*current_time)++;
     }
 }

@@ -121,7 +121,6 @@ bool F_Graph::discharge(int u, int *e, int *h, vector<F_Edge *> *N, vector<F_Edg
     return discharged;
 }
 
-// ver se consigo calcular o corte minimo no final do algoritmo
 void F_Graph::relabelToFront(int s, int t)
 {
     // Needed for push_relabel algos
@@ -162,13 +161,13 @@ void F_Graph::relabelToFront(int s, int t)
 
         if (discharge(u, e, h, N, N_current))
         {
+            // Printing the discharged vertex
             cout << "Discharge " << u << endl;
             cout << "e : ";
             printArray(e, V - 1);
             cout << "h : ";
             printArray(h, V - 1);
             this->printGraph();
-            cout << endl;
         }
 
         if (h_old != h[u])
@@ -176,6 +175,15 @@ void F_Graph::relabelToFront(int s, int t)
             L.erase(itr);
             L.push_front(u);
             itr = L.begin();
+
+            // Printing L list
+            cout << "L list:" << endl;
+            for (auto i : L)
+            {
+                cout << i << " ";
+            }
+            cout << endl;
+            cout << endl;
         }
         itr++;
     }
@@ -184,15 +192,18 @@ void F_Graph::relabelToFront(int s, int t)
 int main(int argc, char const *argv[])
 {
     F_Graph g(5);
-    g.addEdge(0, 1, 12);
-    g.addEdge(0, 2, 14);
-    g.addEdge(1, 2, 5);
-    g.addEdge(1, 4, 16);
-    g.addEdge(2, 3, 8);
-    g.addEdge(3, 4, 10);
-    g.addEdge(3, 1, 7);
+    g.addEdge(0, 1, 4);
+    g.addEdge(0, 3, 7);
+    g.addEdge(1, 3, 7);
+    g.addEdge(1, 2, 6);
+    g.addEdge(2, 3, 4);
+    g.addEdge(2, 4, 7);
+    g.addEdge(3, 1, 3);
+    g.addEdge(3, 4, 4);
     g.relabelToFront(0, 4);
-
+    
+    // Também se pode computar o corte mínimo encontrando um h'
+    // tal que h' != h(v) para todo o v em V e h' < V
     // Calcular o corte mínimo com uma bfs na rede residual
     vector<int> d(5, -1);
     vector<int> pi(5, -1);

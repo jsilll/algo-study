@@ -12,15 +12,26 @@ void W_Graph::floydWarshall()
     int **D = this->buildAdjMatrix();
     int **PI = this->buildPIMatrix();
 
+    fillMatrixDiag(D, V - 1, 0);
+
     int i, j, k;
 
     for (k = 0; k < V; k++)
     {
+        // Printing D(k) and PI(k) Matrices
+        cout << "D "
+             << "(" << k << ")"
+             << " Matrix" << endl;
+        printMatrix(D, V - 1, V - 1);
+        cout << "PI "
+             << "(" << k << ")"
+             << " Matrix" << endl;
+        printMatrix(PI, V - 1, V - 1);
+
         for (i = 0; i < V; i++)
         {
             for (j = 0; j < V; j++)
             {
-                // Isto é a cena das colunas e linhas que o professor desenha nas aulas
                 if (D[i][k] != INT_MAX && D[k][j] != INT_MAX && D[i][j] > D[i][k] + D[k][j])
                 {
                     D[i][j] = D[i][k] + D[k][j];
@@ -29,28 +40,22 @@ void W_Graph::floydWarshall()
             }
         }
     }
-
-    fillMatrixDiag(D, V - 1, 0);
-    fillMatrixDiag(PI, V - 1, -1);
-
-    cout << "D Matrix" << endl;
-    printMatrix(D, V - 1, V - 1);
-    cout << "PI Matrix" << endl;
-    printMatrix(PI, V - 1, V - 1);
 }
 
 int main(int argc, char const *argv[])
 {
-    W_Graph g(5);
-    g.addEdge(0, 1, 10);
-    g.addEdge(0, 4, 5);
-    g.addEdge(1, 2, 1);
-    g.addEdge(1, 4, 2);
-    g.addEdge(2, 3, 4);
-    g.addEdge(3, 2, 6);
-    g.addEdge(4, 1, 3);
-    g.addEdge(4, 2, 9);
-    g.addEdge(4, 3, 2);
+    W_Graph g(6);
+    int offset = -1;
+    g.addEdge(1 + offset, 5 + offset, -1);
+    g.addEdge(2 + offset, 1 + offset, 1);
+    g.addEdge(2 + offset, 4 + offset, 2);
+    g.addEdge(3 + offset, 2 + offset, 2);
+    g.addEdge(3 + offset, 6 + offset, -8);
+    g.addEdge(4 + offset, 1 + offset, -4);
+    g.addEdge(4 + offset, 5 + offset, 3);
+    g.addEdge(5 + offset, 2 + offset, 7);
+    g.addEdge(6 + offset, 2 + offset, 5);
+    g.addEdge(6 + offset, 3 + offset, 10);
     g.floydWarshall(); // O(n^3)
     // Se (i,j) != "i" (na matrix de adjacencicas) entao pertence ao fecho transitivo do grafo
     // O fecho transitivo de um grafo é o conjunto de vértices (i,j)

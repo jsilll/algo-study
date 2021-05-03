@@ -33,19 +33,14 @@ void W_Graph::johnson()
 
     int *d = new int[V + 1];
     int *pi = new int[V + 1];
-    if (!g_positive.bellmanFord(V, d, pi))
+    if (!g_positive.bellmanFord(V, d, pi)) // We can also use the dag specific algo
     {
         cout << "There's a negative cycle in the graph" << endl;
         return;
     }
 
-    cout << "D Array after bellmanFord" << endl;
-    printArray(d, V);
-    cout << "PI Array bellmanFord" << endl;
-    printArray(pi, V);
-
-    // Temos a certeza de que nao há ciclos negativos no grafo
     W_Graph g_final(V);
+    // Temos a certeza de que nao há ciclos negativos no grafo
     // Iterating through all the edges
     for (int u = 0; u < V; u++)
     {
@@ -86,17 +81,28 @@ int main(int argc, char const *argv[])
     // um caminho mais curto com função de peso w, então, também é caminho
     // mais curto com função de peso w'
     W_Graph g(6);
-    g.addEdge(l2i('A'), l2i('B'), 6);
-    g.addEdge(l2i('A'), l2i('C'), 2);
-    g.addEdge(l2i('B'), l2i('D'), 3);
-    g.addEdge(l2i('C'), l2i('D'), -1);
-    g.addEdge(l2i('D'), l2i('E'), 4);
-    g.addEdge(l2i('E'), l2i('F'), -2);
-    g.addEdge(l2i('F'), l2i('A'), -2);
-    g.addEdge(l2i('F'), l2i('C'), 1);
+    g.addEdge(0, 1, -2);
+    g.addEdge(0, 2, 2);
+    g.addEdge(1, 2, 1);
+    g.addEdge(1, 3, -3);
+    g.addEdge(2, 4, 4);
+    g.addEdge(3, 5, 2);
+    g.addEdge(4, 3, 1);
+    g.addEdge(4, 5, 1);
     g.johnson();
     return 0;
 }
+
+// W_Graph g(6);
+// g.addEdge(l2i('A'), l2i('B'), 6);
+// g.addEdge(l2i('A'), l2i('C'), 2);
+// g.addEdge(l2i('B'), l2i('D'), 3);
+// g.addEdge(l2i('C'), l2i('D'), -1);
+// g.addEdge(l2i('D'), l2i('E'), 4);
+// g.addEdge(l2i('E'), l2i('F'), -2);
+// g.addEdge(l2i('F'), l2i('A'), -2);
+// g.addEdge(l2i('F'), l2i('C'), 1);
+// g.johnson();
 
 // W_Graph g(5);
 // g.addEdge(0, 1, 10);
@@ -122,26 +128,34 @@ void W_Graph::dijkstra(int s, int *d, int *pi)
 
     d[s] = 0;
 
+    // Initializing priority queue
+    bool *pqMember = new bool[V];
     priority_queue<priorityPair, vector<priorityPair>, pq_LowestDistanceFirst_Lexical> pq;
+    for (int v = 0; v < V; v++)
+    {
+        if (v != s)
+        {
+            pqMember[v] = true;
+            pq.push(make_pair(INT_MAX, v));
+        }
+    }
     pq.push(make_pair(0, s));
 
     while (!pq.empty())
     {
-
         int u = pq.top().second;
-        int w = pq.top().first;
         pq.pop();
+        pqMember[u] = false;
 
         // Iterate through its edges
         for (vector<Edge>::iterator itr = adj[u].begin(); itr != adj[u].end(); ++itr)
         {
-            // Must be positive
-            if (d[itr->getV()] > d[u] + itr->getW())
+            // Check if d[u] != INT_MAX otherwise sum may overflow
+            if (pqMember[itr->getV()] && d[u] != INT_MAX && d[itr->getV()] > d[u] + itr->getW())
             {
                 d[itr->getV()] = d[u] + itr->getW();
                 pi[itr->getV()] = u;
-                // Relax operation, its being applied more than once for every edge and it shouldnt, cuz of how heap (??)
-                pq.push(make_pair(d[itr->getV()], itr->getV())); // Now we must update all the paths that use this one (sub-optimal structure)
+                pq.push(make_pair(d[itr->getV()], itr->getV())); // Lazy decrease key
             }
         }
     }
@@ -187,5 +201,11 @@ bool W_Graph::bellmanFord(int s, int *d, int *pi)
             }
         }
     }
+
+    cout << "Distances Array" << endl;
+    printArray(d, V - 1);
+    cout << "Parents Array" << endl;
+    printArray(pi, V - 1);
+
     return true;
 }

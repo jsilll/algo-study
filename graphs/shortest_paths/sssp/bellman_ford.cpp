@@ -28,7 +28,7 @@ bool W_Graph::bellmanFord(int s, int *d, int *pi)
             for (int v = 0; v < V; v++)
             {
                 // Relax operation
-                if (D[u][v] != INT_MAX && d[v] > d[u] + D[u][v])
+                if (D[u][v] != INT_MAX && d[u] != INT_MAX && d[v] > d[u] + D[u][v])
                 {
                     d[v] = d[u] + D[u][v];
                     pi[v] = u;
