@@ -27,7 +27,7 @@ vector<int> Graph::orderedDFS(int *order)
 
 void Graph::kosarajuSharir()
 {
-    int *top_order = this->topologicalSort(0);
+    int *top_order = this->topologicalSort();
     printVector(this->getTranspose().orderedDFS(top_order));
 }
 

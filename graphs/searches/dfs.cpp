@@ -17,15 +17,8 @@ int main(int argc, char const *argv[])
     int current_time = 0;
     vector<int> times(V, -1);
     vector<int> pi(V, -1);
-    for (int u = 0; u < V; u++)
-    {
-        if (times[u] == -1)
-        {
-            // By your boy Tarjan
-            g.dfs(u, &pi, &times, &current_time);
-        }
-        current_time++;
-    }
+    // By your boy Tarjan
+    g.dfs(&pi, &times, &current_time);
     cout << "Times vector" << endl;
     printVector(times);
     cout << "Pi vector" << endl;
