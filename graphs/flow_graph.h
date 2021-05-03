@@ -46,11 +46,6 @@ private:
     int E;
     vector<F_Edge> *adj;
 
-    // Push Relabel Algorithms
-    int *e, *h;
-    vector<F_Edge *> *N;
-    vector<F_Edge *>::iterator *N_current;
-
 public:
     F_Graph(int V);
     ~F_Graph();
@@ -66,11 +61,11 @@ public:
     int edmondsKarp(int s, int t);
 
     // Push Relabel
-    void push(int u, int v, F_Edge *edge);
-    void relabel(int u);
-    void pushRelabelInitialize(int s);
+    void push(int u, int v, F_Edge *edge, int *e, int *h);
+    void relabel(int u, int *h, vector<F_Edge *> *N);
+    void pushRelabelInitialize(int s, int *e, int *h);
+    bool discharge(int u, int *e, int *h, vector<F_Edge *> *N, vector<F_Edge *>::iterator *N_current);
     void pushRelabel(int s, int t);
-    void discharge(int u);
     void relabelToFront(int s, int t);
 };
 
@@ -79,12 +74,6 @@ F_Graph::F_Graph(int V)
     this->V = V;
     this->E = 0;
     adj = new vector<F_Edge>[V];
-
-    // Needed for push_relabel algos
-    e = new int[V];
-    h = new int[V];
-    N = new vector<F_Edge *>[V];
-    N_current = new vector<F_Edge *>::iterator[V];
 }
 
 F_Graph::~F_Graph()
@@ -126,80 +115,6 @@ W_Graph F_Graph::buildResidualNetwork()
     }
 
     return gf;
-}
-
-void F_Graph::push(int u, int v, F_Edge *edge)
-{
-
-    // Forward Edge
-    if (edge->getV() == v)
-    {
-        int new_flow = min(e[u], edge->getResidualCapacity());
-        edge->setFlow(edge->getFlow() + new_flow);
-        e[u] = e[u] - new_flow;
-        e[v] = e[v] + new_flow;
-    }
-
-    // Backwards Edge
-    else if (edge->getV() == u)
-    {
-        int new_flow = min(e[u], edge->getFlow());
-        edge->setFlow(edge->getFlow() - new_flow);
-        e[u] = e[u] - new_flow;
-        e[v] = e[v] + new_flow;
-    }
-}
-
-void F_Graph::relabel(int u)
-{
-    int min_height = INT_MAX;
-    // Percorrer todos os arcos de adjacencia na rede residual
-    // Forward existe de ainda há residualCapacity
-    // Backwards existe se há flow
-    for (int v = 0; v < N[u].size(); v++)
-    {
-        F_Edge *edge = N[u][v];
-
-        // Forward Edge case
-        if (edge->getV() != u)
-        {
-            if (edge->getResidualCapacity())
-            {
-                min_height = min(min_height, h[edge->getV()]);
-            }
-        }
-
-        // If its not a forward edge it's a backwards one
-        else if (edge->getFlow())
-        {
-            min_height = min(min_height, h[edge->getU()]);
-        }
-    }
-
-    h[u] = 1 + min_height;
-}
-
-void F_Graph::pushRelabelInitialize(int s)
-{
-    // Initialize
-    for (int u = 0; u < V; u++)
-    {
-        for (vector<F_Edge>::iterator itr = adj[u].begin(); itr != adj[u].end(); ++itr)
-        {
-            itr->setFlow(0);
-        }
-        e[u] = 0;
-        h[u] = 0;
-    }
-
-    for (vector<F_Edge>::iterator itr = adj[s].begin(); itr != adj[s].end(); ++itr)
-    {
-        e[s] = e[s] - itr->getCapacity();
-        e[itr->getV()] = itr->getCapacity();
-        itr->setFlow(itr->getCapacity());
-    }
-
-    h[s] = V;
 }
 
 void F_Graph::printGraph()

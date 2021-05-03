@@ -1,22 +1,96 @@
 #include <iostream>
-#include <stack>
+#include <list>
 
 #include "../../../vector_utils.h"
 #include "../../flow_graph.h"
 
 using namespace std;
 
-void F_Graph::discharge(int u)
+void F_Graph::push(int u, int v, F_Edge *edge, int *e, int *h)
+{
+    // Forward Edge
+    if (edge->getV() == v)
+    {
+        int new_flow = min(e[u], edge->getResidualCapacity());
+        edge->setFlow(edge->getFlow() + new_flow);
+        e[u] = e[u] - new_flow;
+        e[v] = e[v] + new_flow;
+    }
+
+    // Backwards Edge
+    else if (edge->getV() == u)
+    {
+        int new_flow = min(e[u], edge->getFlow());
+        edge->setFlow(edge->getFlow() - new_flow);
+        e[u] = e[u] - new_flow;
+        e[v] = e[v] + new_flow;
+    }
+}
+
+void F_Graph::relabel(int u, int *h, vector<F_Edge *> *N)
+{
+    int min_height = INT_MAX;
+    // Percorrer todos os arcos de adjacencia na rede residual
+    // Forward existe de ainda há residualCapacity
+    // Backwards existe se há flow
+    for (int v = 0; v < N[u].size(); v++)
+    {
+        F_Edge *edge = N[u][v];
+
+        // Forward Edge case
+        if (edge->getV() != u)
+        {
+            if (edge->getResidualCapacity())
+            {
+                min_height = min(min_height, h[edge->getV()]);
+            }
+        }
+
+        // If its not a forward edge it's a backwards one
+        else if (edge->getFlow())
+        {
+            min_height = min(min_height, h[edge->getU()]);
+        }
+    }
+
+    h[u] = 1 + min_height;
+}
+
+void F_Graph::pushRelabelInitialize(int s, int *e, int *h)
+{
+    // Initialize
+    for (int u = 0; u < V; u++)
+    {
+        for (vector<F_Edge>::iterator itr = adj[u].begin(); itr != adj[u].end(); ++itr)
+        {
+            itr->setFlow(0);
+        }
+        e[u] = 0;
+        h[u] = 0;
+    }
+
+    for (vector<F_Edge>::iterator itr = adj[s].begin(); itr != adj[s].end(); ++itr)
+    {
+        e[s] = e[s] - itr->getCapacity();
+        e[itr->getV()] = itr->getCapacity();
+        itr->setFlow(itr->getCapacity());
+    }
+
+    h[s] = V;
+}
+
+bool F_Graph::discharge(int u, int *e, int *h, vector<F_Edge *> *N, vector<F_Edge *>::iterator *N_current)
 {
     // Nao é o mais eficiente possivel porque
     // itera sempre por todos e nao recomeca onde ficou
     // desde o ultimo
-
+    bool discharged = false;
     while (e[u] > 0)
     {
+        discharged = true;
         if (N_current[u] == N[u].end())
         {
-            relabel(u);
+            relabel(u, h, N);
             N_current[u] = N[u].begin(); // Reset iterator
         }
 
@@ -26,7 +100,7 @@ void F_Graph::discharge(int u)
         {
             if ((*N_current[u])->getResidualCapacity() && h[u] == h[v] + 1)
             {
-                push(u, v, *N_current[u]);
+                push(u, v, *N_current[u], e, h);
             }
         }
 
@@ -37,20 +111,33 @@ void F_Graph::discharge(int u)
             if ((*N_current[u])->getFlow() && h[u] == h[v] + 1)
             {
                 // caso de refluxo
-                push(u, v, *N_current[u]);
+                push(u, v, *N_current[u], e, h);
             }
         }
 
         N_current[u]++;
     }
+
+    return discharged;
 }
 
 // ver se consigo calcular o corte minimo no final do algoritmo
 void F_Graph::relabelToFront(int s, int t)
 {
-    pushRelabelInitialize(s);
+    // Needed for push_relabel algos
+    int *e = new int[V];
+    int *h = new int[V];
+    vector<F_Edge *> *N = new vector<F_Edge *>[V];
+    vector<F_Edge *>::iterator *N_current = new vector<F_Edge *>::iterator[V];
+
+    pushRelabelInitialize(s, e, h);
 
     // Initialize N List (specific for relabelToFront algo)
+    // Initialize N_current list
+    // Setting up L for V - {s, t} in 0 -> V order
+    // Vai-se tornando numa ordenação topológica da
+    // rede residual admissível
+    list<int> L;
     for (int u = 0; u < V; u++)
     {
         for (vector<F_Edge>::iterator itr = adj[u].begin(); itr != adj[u].end(); ++itr)
@@ -58,71 +145,39 @@ void F_Graph::relabelToFront(int s, int t)
             N[u].push_back(&(*itr));           // As forward edge
             N[itr->getV()].push_back(&(*itr)); // As backwards edge
         }
-    }
 
-    // Initialize N_current list
-    for (int u = 0; u < V; u++)
-    {
         N_current[u] = N[u].begin();
-    }
 
-    // Setting up L for V - {s, t} in 0 -> V order
-    // Vai-se tornando numa ordenação topológica da
-    // rede residual admissível
-    stack<int> L;
-    for (int u = V - 1; u > -1; u--)
-    {
         if (u != s && u != t)
         {
-            L.push(u);
+            L.push_back(u);
         }
     }
 
-    // Actual Algorithm
-    int u;
-    if (!L.empty())
+    list<int>::iterator itr = L.begin();
+    while (itr != L.end())
     {
-        u = L.top();
-        L.pop();
-    }
-    else
-    {
-        return;
-    }
+        int u = (*itr);
+        int h_old = h[*itr];
 
-    while (1)
-    {
-        int u_old = u;
-        int h_old = h[u];
-
-        discharge(u);
-
-        // Prints e mambos
-        cout << "Discharge " << u << endl;
-        cout << "e : ";
-        printArray(e, V - 1);
-        cout << "h : ";
-        printArray(h, V - 1);
-        this->printGraph();
-        cout << endl;
-
-        if (!L.empty())
+        if (discharge(u, e, h, N, N_current))
         {
-            u = L.top();
-            L.pop();
+            cout << "Discharge " << u << endl;
+            cout << "e : ";
+            printArray(e, V - 1);
+            cout << "h : ";
+            printArray(h, V - 1);
+            this->printGraph();
+            cout << endl;
         }
 
-        // Mesmo que a altura tenha sido alterada
-        // se nao houver mais nenhum na queue nao importa
-        else
+        if (h_old != h[u])
         {
-            break;
+            L.erase(itr);
+            L.push_front(u);
+            itr = L.begin();
         }
-
-        if (h[u_old] != h_old)
-        {
-            L.push(u_old);
-        }
+        itr++;
     }
 }
 
