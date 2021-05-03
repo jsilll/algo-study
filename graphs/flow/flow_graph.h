@@ -3,7 +3,7 @@
 #include <vector>
 #include <queue>
 
-#include "weighted_graph.h"
+#include "../weighted_graph.h"
 
 using namespace std;
 
