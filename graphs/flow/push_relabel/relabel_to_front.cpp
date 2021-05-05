@@ -61,7 +61,8 @@ void F_Graph::pushRelabelInitialize(int s, int *e, int *h)
     // Initialize
     for (int u = 0; u < V; u++)
     {
-        for (vector<F_Edge>::iterator itr = adj[u].begin(); itr != adj[u].end(); ++itr)
+        for (vector<F_Edge>::iterator itr = adj[u].begin(); itr != adj[u].end();
+             ++itr)
         {
             itr->setFlow(0);
         }
@@ -69,7 +70,8 @@ void F_Graph::pushRelabelInitialize(int s, int *e, int *h)
         h[u] = 0;
     }
 
-    for (vector<F_Edge>::iterator itr = adj[s].begin(); itr != adj[s].end(); ++itr)
+    for (vector<F_Edge>::iterator itr = adj[s].begin(); itr != adj[s].end();
+         ++itr)
     {
         e[s] = e[s] - itr->getCapacity();
         e[itr->getV()] = itr->getCapacity();
@@ -79,7 +81,8 @@ void F_Graph::pushRelabelInitialize(int s, int *e, int *h)
     h[s] = V;
 }
 
-bool F_Graph::discharge(int u, int *e, int *h, vector<F_Edge *> *N, vector<F_Edge *>::iterator *N_current)
+bool F_Graph::discharge(int u, int *e, int *h, vector<F_Edge *> *N,
+                        vector<F_Edge *>::iterator *N_current)
 {
     // Nao é o mais eficiente possivel porque
     // itera sempre por todos e nao recomeca onde ficou
@@ -139,7 +142,8 @@ void F_Graph::relabelToFront(int s, int t)
     list<int> L;
     for (int u = 0; u < V; u++)
     {
-        for (vector<F_Edge>::iterator itr = adj[u].begin(); itr != adj[u].end(); ++itr)
+        for (vector<F_Edge>::iterator itr = adj[u].begin(); itr != adj[u].end();
+             ++itr)
         {
             N[u].push_back(&(*itr));           // As forward edge
             N[itr->getV()].push_back(&(*itr)); // As backwards edge
@@ -201,7 +205,7 @@ int main(int argc, char const *argv[])
     g.addEdge(3, 1, 3);
     g.addEdge(3, 4, 4);
     g.relabelToFront(0, 4);
-    
+
     // Também se pode computar o corte mínimo encontrando um h'
     // tal que h' != h(v) para todo o v em V e h' < V
     // Calcular o corte mínimo com uma bfs na rede residual

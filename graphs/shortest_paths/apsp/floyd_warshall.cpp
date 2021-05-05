@@ -12,7 +12,7 @@ void W_Graph::floydWarshall()
     int **D = this->buildAdjMatrix();
     int **PI = this->buildPIMatrix();
 
-    fillMatrixDiag(D, V - 1, 0);
+    fillMatrixDiag(D, V - 1, 0); // Also for checking for negative loops in the end
 
     int i, j, k;
 
@@ -40,6 +40,8 @@ void W_Graph::floydWarshall()
             }
         }
     }
+
+    // If the final Matrix does not have the whole diag with 0s it means there's a negative loop
 }
 
 int main(int argc, char const *argv[])

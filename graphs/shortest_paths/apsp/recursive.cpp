@@ -57,7 +57,7 @@ void W_Graph::shortestPaths()
         edges += adj[u].size();
     }
 
-    for (int i = 0; i < edges; i++)
+    for (int i = 0; i < edges; i++) // Each iteration we can use one more vertex/edge for the path
     {
         extendShortestPaths(D, PI);
     }

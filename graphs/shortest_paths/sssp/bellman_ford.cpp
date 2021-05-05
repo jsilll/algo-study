@@ -21,19 +21,37 @@ bool W_Graph::bellmanFord(int s, int *d, int *pi)
 
     d[s] = 0;
 
+    bool relaxed = true;
     for (int i = 0; i < V - 1; i++)
     {
-        for (int u = 0; u < V; u++)
+        if (relaxed) // If there was a relax in the last iteration then lets see if we can get better estimates
         {
-            for (int v = 0; v < V; v++)
+            relaxed = false;
+            for (int u = 0; u < V; u++) // Can be improved if we only iterate on adj list
             {
-                // Relax operation
-                if (D[u][v] != INT_MAX && d[u] != INT_MAX && d[v] > d[u] + D[u][v])
+                for (int v = 0; v < V; v++)
                 {
-                    d[v] = d[u] + D[u][v];
-                    pi[v] = u;
+                    // Relax operation
+                    if (D[u][v] != INT_MAX && d[u] != INT_MAX && d[v] > d[u] + D[u][v])
+                    {
+
+                        d[v] = d[u] + D[u][v];
+                        pi[v] = u;
+                        relaxed = true;
+                    }
                 }
             }
+
+            cout << i << " iteration" << endl;
+            cout << "Distances Array" << endl;
+            printArray(d, V - 1);
+            cout << "Parents Array" << endl;
+            printArray(pi, V - 1);
+            cout << endl;
+        }
+        else
+        {
+            break;
         }
     }
 
@@ -48,11 +66,6 @@ bool W_Graph::bellmanFord(int s, int *d, int *pi)
             }
         }
     }
-
-    cout << "Distances Array" << endl;
-    printArray(d, V - 1);
-    cout << "Parents Array" << endl;
-    printArray(pi, V - 1);
 
     return true;
 }

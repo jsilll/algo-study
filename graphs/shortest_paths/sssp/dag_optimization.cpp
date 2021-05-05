@@ -6,7 +6,7 @@
 
 using namespace std;
 
-// Se relaxar todas as arestas de um caminho mais curto, por ordem
+// Se relaxar todas as arestas de um caminho mais curto, por ordem top.<
 // entao, no final, a estimativa para a distancia, para cada vertice,
 // corresponde à distância mínima
 

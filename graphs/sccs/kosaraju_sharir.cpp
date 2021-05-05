@@ -1,8 +1,8 @@
 #include <iostream>
 #include <queue>
 
-#include "../../vector_utils.h"
 #include "../../array_utils.h"
+#include "../../vector_utils.h"
 #include "../graph.h"
 
 using namespace std;

@@ -1,5 +1,6 @@
-#include <iostream>
 #include "subsets.h"
+#include <iostream>
+#include <math.h>
 
 using namespace std;
 
@@ -17,7 +18,7 @@ int main(int argc, char const *argv[])
 
     for (int i = 0; i < 3; i++)
     {
-        mergeSubSets(subsets, 2 ^ i, 2 ^ (i + 1));
+        mergeSubSets(subsets, pow(2, i), pow(2, (i + 1)));
     }
 
     for (int i = 0; i < 3; i++)
@@ -30,6 +31,7 @@ int main(int argc, char const *argv[])
     mergeSubSets(subsets, 1, 5);
     findSubSetRoot(subsets, 4);
 
+    // Final Print
     printSubSets(subsets, N);
 
     return 0;
