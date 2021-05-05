@@ -1,26 +1,37 @@
 # asa-study
-- [x] Teorema Mestre
-- [x] MergeSort
 - [x] Heap Basic Operations
-- [x] HeapSort
-- [x] QuickSort
-- [x] CountingSort
-- [ ] RadixSort
-- [x] Linear search
-- [x] Binary search
+#### Sorts
+- [x] MergeSort - O(nlog(n))
+- [x] HeapSort - O(nlog(n))
+- [x] QuickSort - O(nlog(n))
+- [x] CountingSort - O(n + k)
+- [ ] RadixSort - O(d(n + k))
+#### Searches
+- [x] Linear search - O(n)
+- [x] Binary search - O(log(n))
 - [x] Kth Order Element
 
 ### Graph Algorithms
-- [x] Topological Sort
-- [x] Tarjan
-- [x] Korasaju-Sharir
-- [x] Depth-First-Search
-- [x] Breadth-First-Search
-- [x] Dijkstra
-- [x] Bellman-Ford
-- [x] Floyd-Warshall
-- [x] Johnson
-- [x] Edmonds-Karp
-- [x] Relabel-to-Front 
-- [x] Kruskal 
-- [x] Prim 
+#### Topological Sort
+- [x] Khan / DFS - O(V + E) 
+#### SCCs
+- [x] Tarjan - O(V + E)
+- [x] Korasaju-Sharir - O(V + E)
+#### Searches
+- [x] Depth-First-Search - O(V + E)
+- [x] Breadth-First-Search - O(V + E)
+#### Shortest Paths
+##### SSSP
+- [x] Dijkstra - O((V + E)log(V))
+- [x] Bellman-Ford - O(VE)
+- [x] DAG-Optimization - O(V + E)
+##### APSP
+- [x] Recursive - O(n^4)
+- [x] Floyd-Warshall - O(n^3)
+- [x] Johnson - O(V(V+ E)log(V))
+##### Flow
+- [x] Edmonds-Karp O(VE^2)
+- [x] Relabel-to-Front O(V^3)
+##### MSTs
+- [x] Prim O(Elog(V))
+- [x] Kruskal O(Elog(V))
