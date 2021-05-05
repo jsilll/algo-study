@@ -78,7 +78,7 @@ void Heap::swap(int i, int j)
 }
 
 // Transforms the tree with root i into a heap
-void Heap::maxHeapify(int i)
+void Heap::maxHeapify(int i) // O(log(n))
 {
     int l = left(i);
     int r = right(i);
@@ -101,7 +101,7 @@ void Heap::maxHeapify(int i)
     }
 }
 
-void Heap::buildMaxHeap()
+void Heap::buildMaxHeap() //O(nlog(n))
 {
     for (int i = vec.size() / 2; i >= 0; i--)
     {
@@ -123,7 +123,7 @@ int Heap::getMax()
     return vec.size();
 }
 
-int Heap::extractMax()
+int Heap::extractMax() // O(log(n))
 {
     if (!vec.empty())
     {
@@ -136,7 +136,7 @@ int Heap::extractMax()
     return -1;
 }
 
-void Heap::increaseKey(int i, int key)
+void Heap::increaseKey(int i, int key) // O(log(n))
 {
     if (i < vec.size())
     {
@@ -149,14 +149,14 @@ void Heap::increaseKey(int i, int key)
     }
 }
 
-void Heap::insert(int key)
+void Heap::insert(int key) // O(log(n))
 {
     vec.push_back(-1);
     // SiftUp
     increaseKey(vec.size() - 1, key);
 }
 
-vector<int> Heap::heapSort()
+vector<int> Heap::heapSort() // O(nlog(n))
 {
     vector<int> sort(vec.size(), -1);
 

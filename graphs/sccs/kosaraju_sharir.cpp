@@ -28,6 +28,7 @@ vector<int> Graph::orderedDFS(int *order)
 void Graph::kosarajuSharir()
 {
     int *top_order = this->topologicalSort();
+    cout << "DF Tree" << endl;
     printVector(this->getTranspose().orderedDFS(top_order));
 }
 
@@ -46,7 +47,6 @@ int main(int argc, char const *argv[])
     g.addEdge(7, 2);
     g.addEdge(2, 1);
     g.addEdge(2, 6);
-    cout << "DF Tree" << endl;
     g.kosarajuSharir();
     return 0;
 }

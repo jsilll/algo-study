@@ -195,25 +195,50 @@ void F_Graph::relabelToFront(int s, int t)
 
 int main(int argc, char const *argv[])
 {
-    F_Graph g(5);
-    g.addEdge(0, 1, 4);
-    g.addEdge(0, 3, 7);
-    g.addEdge(1, 3, 7);
-    g.addEdge(1, 2, 6);
-    g.addEdge(2, 3, 4);
-    g.addEdge(2, 4, 7);
-    g.addEdge(3, 1, 3);
-    g.addEdge(3, 4, 4);
-    g.relabelToFront(0, 4);
+    int V = 6;
+    F_Graph g(V);
+    g.addEdge(0, 1, 13);
+    g.addEdge(0, 3, 10);
+    g.addEdge(1, 2, 7);
+    g.addEdge(1, 3, 1);
+    g.addEdge(2, 5, 15);
+    g.addEdge(3, 2, 1);
+    g.addEdge(3, 4, 9);
+    g.addEdge(4, 2, 4);
+    g.addEdge(4, 5, 5);
+    g.relabelToFront(0, 5);
 
     // Também se pode computar o corte mínimo encontrando um h'
     // tal que h' != h(v) para todo o v em V e h' < V
     // Calcular o corte mínimo com uma bfs na rede residual
-    vector<int> d(5, -1);
-    vector<int> pi(5, -1);
+    vector<int> d(V, -1);
+    vector<int> pi(V, -1);
     W_Graph gf = g.buildResidualNetwork();
-    gf.bfs(0, 4, &d, &pi);
+    gf.bfs(0, 5, &d, &pi);
     cout << "Corte Minimo:" << endl;
     printVector(d);
     return 0;
 }
+
+// int V = 5;
+// F_Graph g(V);
+// g.addEdge(0, 1, 4);
+// g.addEdge(0, 3, 7);
+// g.addEdge(1, 3, 7);
+// g.addEdge(1, 2, 6);
+// g.addEdge(2, 3, 4);
+// g.addEdge(2, 4, 7);
+// g.addEdge(3, 1, 3);
+// g.addEdge(3, 4, 4);
+// g.relabelToFront(0, 4);
+
+// // Também se pode computar o corte mínimo encontrando um h'
+// // tal que h' != h(v) para todo o v em V e h' < V
+// // Calcular o corte mínimo com uma bfs na rede residual
+// vector<int> d(V, -1);
+// vector<int> pi(V, -1);
+// W_Graph gf = g.buildResidualNetwork();
+// gf.bfs(0, 4, &d, &pi);
+// cout << "Corte Minimo:" << endl;
+// printVector(d);
+// return 0;

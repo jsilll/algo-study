@@ -141,7 +141,6 @@ int *Graph::topologicalSort()
     vector<int> pi(V, -1);
     this->dfs(&pi, &times, &current_time);
     int *order = new int[V];
-    // printVector(times);
     for (int u = 0; u < V; u++)
     {
         order[V - 1 - times[u]] = u;
