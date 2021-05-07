@@ -1,6 +1,6 @@
-#include <iostream>
 #include "../../../vector_utils.h"
 #include "../flow_graph.h"
+#include <iostream>
 
 using namespace std;
 
@@ -11,37 +11,71 @@ int F_Graph::edmondsKarp(int s, int t)
 {
     int total_flow = 0, new_flow;
     W_Graph gf = this->buildResidualNetwork();
+
     vector<int> d(V, -1);
     vector<int> pi(V, -1);
+
     gf.bfs(s, t, &d, &pi);
     while (d[V - 1] != -1) // means we reached the sink
     {
-        vector<F_Edge *> increase_path;
         int max_flow = INT_MAX; // max posible flow to increase after bfs call
         int v = t;
-        int parent = pi[v];
+        int u = pi[v];
+        vector<F_Edge *> forward_edges;
+        vector<F_Edge *> backwards_edges;
+        bool found_edge = false;
 
-        while (parent != -1) // Percorrer o caminho do sink para a source
+        cout << "Found Increase Path:" << endl;
+        while (u != -1) // Percorrer o caminho do sink para a source
         {
-            for (int i = 0; i < adj[parent].size(); i++)
+
+            found_edge = false;
+
+            // Forward Edge
+            for (int i = 0; i < adj[u].size(); i++)
             {
-                if (adj[parent][i].getV() == v)
+                if (adj[u][i].getV() == v)
                 {
-                    max_flow = min(max_flow, adj[parent][i].getResidualCapacity());
-                    increase_path.push_back(&adj[parent][i]);
+                    max_flow = min(max_flow, adj[u][i].getResidualCapacity());
+                    forward_edges.push_back(&adj[u][i]);
+                    cout << "(" << adj[u][i].getU() << ", " << adj[u][i].getV() << ")";
+                    found_edge = true;
                     break;
                 }
             }
-            v = parent;
-            parent = pi[v];
+
+            if (!found_edge)
+            {
+                // Backwards Edge
+                for (int i = 0; i < adj[v].size(); i++)
+                {
+                    if (adj[v][i].getV() == u)
+                    {
+                        max_flow = min(max_flow, adj[v][i].getFlow());
+                        backwards_edges.push_back(&adj[v][i]);
+                        cout << "(" << adj[u][i].getU() << ", " << adj[u][i].getV() << ")";
+                        break;
+                    }
+                }
+            }
+
+            v = u;
+            u = pi[v];
         }
+        cout << endl;
 
         total_flow += max_flow;
 
-        // Aumentar os fluxos das arestas do caminho encontrado
-        for (int i = 0; i < increase_path.size(); i++)
+        // Increase flow in forward edges
+        for (int i = 0; i < forward_edges.size(); i++)
         {
-            increase_path[i]->setFlow(increase_path[i]->getFlow() + max_flow);
+            forward_edges[i]->setFlow(forward_edges[i]->getFlow() + max_flow);
+        }
+
+        // Decrease flow in backwards edges
+        for (int i = 0; i < backwards_edges.size(); i++)
+        {
+            backwards_edges[i]->setFlow(backwards_edges[i]->getFlow() - max_flow);
         }
 
         // Resetting the vectors
@@ -65,15 +99,14 @@ int F_Graph::edmondsKarp(int s, int t)
 int main(int argc, char const *argv[])
 {
     F_Graph g(6);
-    g.addEdge(0, 1, 16);
-    g.addEdge(0, 2, 13);
-    g.addEdge(1, 3, 12);
-    g.addEdge(2, 1, 4);
-    g.addEdge(2, 4, 14);
-    g.addEdge(3, 2, 9);
-    g.addEdge(3, 5, 20);
-    g.addEdge(4, 3, 7);
-    g.addEdge(4, 5, 4);
+    g.addEdge(0, 1, 8);
+    g.addEdge(0, 2, 9);
+    g.addEdge(1, 3, 6);
+    g.addEdge(1, 4, 3);
+    g.addEdge(2, 3, 2);
+    g.addEdge(2, 4, 4);
+    g.addEdge(3, 5, 7);
+    g.addEdge(4, 5, 8);
     g.edmondsKarp(0, 5); // O(VE^2)
     g.printGraph();
     return 0;

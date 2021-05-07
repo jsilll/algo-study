@@ -82,13 +82,13 @@ int main(int argc, char const *argv[])
     // mais curto com função de peso w'
     W_Graph g(6);
     g.addEdge(0, 1, -2);
-    g.addEdge(0, 2, 2);
-    g.addEdge(1, 2, 1);
-    g.addEdge(1, 3, -3);
-    g.addEdge(2, 4, 4);
-    g.addEdge(3, 5, 2);
-    g.addEdge(4, 3, 1);
-    g.addEdge(4, 5, 1);
+    g.addEdge(0, 3, 1);
+    g.addEdge(1, 2, 5);
+    g.addEdge(2, 5, -3);
+    g.addEdge(3, 1, 2);
+    g.addEdge(4, 3, -3);
+    g.addEdge(4, 2, 2);
+    g.addEdge(5, 4, 2);
     g.johnson();
     return 0;
 }

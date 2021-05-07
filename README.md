@@ -1,8 +1,8 @@
 # asa-study
-- [x] Heap Basic Operations
 #### Sorts
 - [x] MergeSort - O(nlog(n))
 - [x] HeapSort - O(nlog(n))
+    - [x] Heap Basic Operations
 - [x] QuickSort - O(nlog(n))
 - [x] CountingSort - O(n + k)
 - [ ] RadixSort - O(d(n + k))
@@ -28,10 +28,11 @@
 ##### APSP
 - [x] Recursive - O(n^4)
 - [x] Floyd-Warshall - O(n^3)
-- [x] Johnson - O(V(V+ E)log(V))
+- [x] Johnson - O(V(V + E)log(V))
 ##### Flow
 - [x] Edmonds-Karp O(VE^2)
 - [x] Relabel-to-Front O(V^3)
 ##### MSTs
 - [x] Prim O(Elog(V))
+    - [x] Subsets Basic Operations
 - [x] Kruskal O(Elog(V))
