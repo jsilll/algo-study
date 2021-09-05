@@ -30,9 +30,7 @@
 - [x] Floyd-Warshall - O(n^3)
 - [x] Johnson - O(V(V + E)log(V))
 ##### Flow 
-###### Ford-Fulkerson O(E |f*|)
 - [x] Edmonds-Karp O(VE^2)
-###### Push-Relabel
 - [x] Relabel-to-Front O(V^3)
 ##### MSTs
 - [x] Prim O(Elog(V))
